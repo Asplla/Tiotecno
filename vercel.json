@@ -3,16 +3,28 @@
   "builds": [
     {
       "src": "nuxt.config.ts",
-      "use": "@nuxtjs/vercel-builder",
       "config": {
         "version": 3,
         "nodeVersion": "18.x",
+        "generateStaticRoutes": true,
+        "postcss": {
+          "plugins": {
+            "tailwindcss": {},
+            "autoprefixer": {}
+          }
+        },
         "serverFiles": [
           "server/**",
           "api/**",
           "plugins/**",
           "composables/**",
-          "config/**"
+          "config/**",
+          "locales/**",
+          "assets/**",
+          "components/**",
+          "layouts/**",
+          "pages/**",
+          "*.{js,ts,json}"
         ]
       }
     }
@@ -26,5 +38,8 @@
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ]
+  ],
+  "env": {
+    "NITRO_PRESET": "vercel"
+  }
 }
