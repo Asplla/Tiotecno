@@ -32,7 +32,7 @@ export default defineNuxtConfig({
         prependPath: false
       }
     },
-    preset: 'vercel'
+    preset: 'vercel-edge'
   },
   vite: {
     plugins: [
@@ -64,5 +64,8 @@ export default defineNuxtConfig({
   ],
   build: {
     transpile: ['vue-i18n']
+  },
+  typescript: {
+    shim: false
   },
 })
