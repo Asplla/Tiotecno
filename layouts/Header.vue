@@ -5,7 +5,7 @@
       <div class="flex items-center justify-between h-full">
         <!-- Logo -->
         <a href="/" class="text-xl font-bold flex items-center" :class="{ 'text-white': !isScrolled && !isMenuOpen, 'text-primary': isScrolled || isMenuOpen }">
-          <LogoIcon class="h-4 mr-2 transition-colors" :class="{ 'scrolled': isScrolled, 'menu-open': isMenuOpen }" />
+          <LogoIcon class="h-5 mr-2 transition-colors" :class="{ 'scrolled': isScrolled, 'menu-open': isMenuOpen }" />
         </a>
 
         <!-- Desktop Navigation -->
