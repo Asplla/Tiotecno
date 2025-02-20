@@ -4,7 +4,7 @@ import svgLoader from "vite-svg-loader";
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  ssr: true,
+  ssr: false,
   imports: {
     dirs: ['composables/**']
   },
@@ -32,10 +32,7 @@ export default defineNuxtConfig({
         prependPath: false
       }
     },
-    preset: 'vercel',
-    routeRules: {
-      '/': { prerender: true }
-    }
+    preset: 'vercel'
   },
   vite: {
     plugins: [
