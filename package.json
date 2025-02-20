@@ -19,8 +19,5 @@
     "@nuxtjs/vercel-builder": "^0.25.0",
     "nuxt": "^3.15.4",
     "vite-svg-loader": "^5.1.0"
-  },
-  "engines": {
-    "node": ">=18.0.0"
   }
 }

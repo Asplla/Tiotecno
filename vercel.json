@@ -1,10 +1,13 @@
 {
   "version": 2,
+  "framework": "nuxt",
   "builds": [
     {
       "src": "nuxt.config.ts",
       "use": "@nuxtjs/vercel-builder",
       "config": {
+        "version": 3,
+        "nodeVersion": "18.x",
         "serverFiles": [
           "server/**",
           "api/**",
