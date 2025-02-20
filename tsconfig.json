@@ -1,15 +1,4 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json",
-  "compilerOptions": {
-    "moduleResolution": "bundler",
-    "allowJs": true,
-    "strict": true,
-    "jsx": "preserve",
-    "jsxImportSource": "vue",
-    "types": ["node"]
-  },
-  "exclude": [
-    "node_modules"
-  ]
+  "extends": "./.nuxt/tsconfig.json"
 }
