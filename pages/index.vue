@@ -237,7 +237,7 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'HomePage',
   mounted() {
@@ -250,7 +250,8 @@ export default {
   }
 }
 </script>
-<script setup>
+<script setup lang="ts">
+//import { useSeo } from '~/composables/useSeo'
 import Noavatar from '~/assets/img/noavatar.svg'
 import FactoryIcon from '~/assets/icon/building-factory.svg'
 import ShopCartIcon from '~/assets/icon/shopping-cart.svg'
@@ -264,6 +265,12 @@ import MapIcon from '~/assets/icon/map.svg'
 import SendEmail from '~/components/SendEmail.vue'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
+
+// useSeo({
+//   title: 'Home Page - Your Site',
+//   description: 'Specific description for the home page',
+//   keywords: ['specific', 'keywords', 'for', 'home', 'page']
+// })
 </script>
 <style scoped>
 /* 我们现在使用 Tailwind 的类，不需要额外的 CSS */
