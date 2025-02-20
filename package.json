@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
+    "build": "ROLLUP_SKIP_NODE_RESOLVE=true nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -19,9 +19,6 @@
   "devDependencies": {
     "nuxt": "^3.15.4",
     "vite-svg-loader": "^5.1.0"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.9.5"
   },
   "__npminstall_done": false,
   "engines": {
