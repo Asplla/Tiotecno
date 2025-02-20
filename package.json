@@ -13,8 +13,7 @@
     "@tailwindcss/vite": "^4.0.7",
     "tailwindcss": "^4.0.7",
     "vue": "latest",
-    "vue-i18n": "next",
-    "vue-router": "latest"
+    "vue-i18n": "next"
   },
   "devDependencies": {
     "nuxt": "^3.15.4",
