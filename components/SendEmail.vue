@@ -53,30 +53,30 @@ const formData = ref({
 })
 
 const handleSubmit = async () => {
-  // // 检查姓名
-  // if (!formData.value.name.trim()) {
-  //   toast.error(t('contact.form.validation.nameRequired'))
-  //   return
-  // }
+  // 检查姓名
+  if (!formData.value.name.trim()) {
+    toast.error(t('contact.form.validation.nameRequired'))
+    return
+  }
 
-  // // 检查邮箱
-  // if (!formData.value.email.trim()) {
-  //   toast.error(t('contact.form.validation.emailRequired'))
-  //   return
-  // }
+  // 检查邮箱
+  if (!formData.value.email.trim()) {
+    toast.error(t('contact.form.validation.emailRequired'))
+    return
+  }
 
-  // // 简单的邮箱格式验证
-  // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  // if (!emailRegex.test(formData.value.email)) {
-  //   toast.error(t('contact.form.validation.emailInvalid'))
-  //   return
-  // }
+  // 简单的邮箱格式验证
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(formData.value.email)) {
+    toast.error(t('contact.form.validation.emailInvalid'))
+    return
+  }
 
-  // // 检查消息内容
-  // if (!formData.value.message.trim()) {
-  //   toast.error(t('contact.form.validation.messageRequired'))
-  //   return
-  // }
+  // 检查消息内容
+  if (!formData.value.message.trim()) {
+    toast.error(t('contact.form.validation.messageRequired'))
+    return
+  }
 
   try {
     isSubmitting.value = true
