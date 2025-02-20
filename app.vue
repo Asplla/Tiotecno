@@ -24,9 +24,9 @@ import { useInitOverlay } from '~/composables/useInitOverlay'
 import { useSeo } from '~/composables/useSeo'
 import { useI18n } from 'vue-i18n'
 import config from '~/config/config'
-import LanguageSuggestion from './components/LanguageSuggestion.vue'
-import Header from '~/layouts/Header.vue'
-import Footer from '~/layouts/Footer.vue'
+import LanguageSuggestion from '@/components/LanguageSuggestion.vue'
+import Header from '@/layouts/Header.vue'
+import Footer from '@/layouts/Footer.vue'
 
 const mounted = ref(false)
 const isLoading = ref(true)

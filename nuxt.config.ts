@@ -27,9 +27,9 @@ export default defineNuxtConfig({
   nitro: {
     devProxy: {
       '/api': {
-        target: 'https://myphp-theta-three.vercel.app/',
+        target: 'https://myphp-theta-three.vercel.app',
         changeOrigin: true,
-        prependPath: false
+        prependPath: true
       }
     },
     preset: 'vercel-edge'
@@ -58,9 +58,9 @@ export default defineNuxtConfig({
     '@/assets/css/main.css'
   ],
   plugins: [
-    '~/plugins/toast',
-    '~/plugins/i18n',
-    '~/plugins/smoothScroll.client'
+    './plugins/toast',
+    './plugins/i18n',
+    './plugins/smoothScroll.client'
   ],
   build: {
     transpile: ['vue-i18n']

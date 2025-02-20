@@ -53,38 +53,39 @@ const formData = ref({
 })
 
 const handleSubmit = async () => {
-  // 检查姓名
-  if (!formData.value.name.trim()) {
-    toast.error(t('contact.form.validation.nameRequired'))
-    return
-  }
+  // // 检查姓名
+  // if (!formData.value.name.trim()) {
+  //   toast.error(t('contact.form.validation.nameRequired'))
+  //   return
+  // }
 
-  // 检查邮箱
-  if (!formData.value.email.trim()) {
-    toast.error(t('contact.form.validation.emailRequired'))
-    return
-  }
+  // // 检查邮箱
+  // if (!formData.value.email.trim()) {
+  //   toast.error(t('contact.form.validation.emailRequired'))
+  //   return
+  // }
 
-  // 简单的邮箱格式验证
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(formData.value.email)) {
-    toast.error(t('contact.form.validation.emailInvalid'))
-    return
-  }
+  // // 简单的邮箱格式验证
+  // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  // if (!emailRegex.test(formData.value.email)) {
+  //   toast.error(t('contact.form.validation.emailInvalid'))
+  //   return
+  // }
 
-  // 检查消息内容
-  if (!formData.value.message.trim()) {
-    toast.error(t('contact.form.validation.messageRequired'))
-    return
-  }
+  // // 检查消息内容
+  // if (!formData.value.message.trim()) {
+  //   toast.error(t('contact.form.validation.messageRequired'))
+  //   return
+  // }
 
   try {
     isSubmitting.value = true
-    const data = await $fetch('/api/index.php?mod=sendemail', {
+    const data = await $fetch('https://myphp-theta-three.vercel.app/api/index.php?mod=sendemail', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
       body: new URLSearchParams({
         name: formData.value.name,
