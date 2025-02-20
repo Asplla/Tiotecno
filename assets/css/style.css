@@ -22,7 +22,7 @@
     --btn-border-hover: #555555;
     --btn-text-color: #FFFFFF;
     --btn-text-accept-color: #FFFFFF;
-    --btn-bg-default: transparent;
+    --btn-bg-default: #FFFFFF;
     --btn-bg-primary: #24292e;
     --btn-bg-default-hover: rgba(242,242,242,1);
     --btn-bg-primary-hover: #555555;
@@ -30,8 +30,8 @@
     --btn-border-primary: transparent;
     --btn-border-default-hover: rgba(0,0,0,0.12);
     --btn-border-primary-hover: transparent;
-    --btn-text-default: #FFFFFF;
-    --btn-text-primary: #000000;
+    --btn-text-default: #000000;
+    --btn-text-primary: #FFFFFF;
     --card-bg: #FFFFFF;
     --card-border: rgba(0, 0, 0, 0.1);
     --card-shadow: rgba(0, 0, 0, 0.08);
