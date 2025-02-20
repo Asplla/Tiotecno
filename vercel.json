@@ -1,25 +1,5 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "nuxt.config.ts",
-      "use": "@vercel/node",
-      "config": {
-        "build": {
-          "env": {
-            "ROLLUP_SKIP_NODE_RESOLVE": "true"
-          }
-        }
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/"
-    }
-  ],
-  "env": {
-    "ROLLUP_SKIP_NODE_RESOLVE": "true"
-  }
+  "buildCommand": "npm run generate",
+  "outputDirectory": ".output/public",
+  "framework": "nuxt"
 } 
