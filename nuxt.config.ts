@@ -3,6 +3,18 @@ import svgLoader from "vite-svg-loader";
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
+  nitro: {
+    devProxy: {
+      '/api': {
+        target: 'https://myphp-theta-three.vercel.app/',
+        changeOrigin: true,
+        prependPath: false
+      }
+    },
+    output: {
+      dir: 'dist'
+    }
+  },
   vite: {
     plugins: [
       svgLoader({
@@ -35,15 +47,6 @@ export default defineNuxtConfig({
     '@/plugins/toast.ts',
     '@/plugins/i18n.ts'
   ],
-  nitro: {
-    devProxy: {
-      '/api': {
-        target: 'https://myphp-theta-three.vercel.app/',
-        changeOrigin: true,
-        prependPath: false
-      }
-    }
-  },
   components: {
     dirs: [
       {
