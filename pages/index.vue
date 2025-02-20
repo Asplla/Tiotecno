@@ -64,7 +64,7 @@
         <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">{{ t('map.title') }}</h2>
       </div>
       <!-- Content -->
-      <div class="max-w-6xl mx-auto">
+      <div class="max-w-8xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
           <div class="lg:col-span-2 space-y-6">
             <!-- Card 1 - Price Advantage -->
