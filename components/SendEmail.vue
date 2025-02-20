@@ -15,12 +15,12 @@
       >
       <textarea 
         rows="3"
-        class="w-full p-3 md:p-4 rounded-lg text-primary border border-[var(--border-primary)] hover:border-[var(--border-hover)] focus:border-[var(--border-hover)] focus:outline-none focus:ring-1 focus:ring-[var(--border-hover)] transition-all"
+        class="w-full p-3 md:p-4 rounded-lg text-primary border border-[var(--border-primary)] hover:border-[var(--border-hover)] focus:border-[var(--border-hover)] focus:outline-none focus:ring-1 focus:ring-[var(--border-hover)] transition-all resize-none"
         :placeholder="t('contact.form.message')"
         v-model="formData.message"
       ></textarea>
       <button 
-        class="w-full p-3 md:p-4 rounded-md transition-all cursor-pointer btn-primary flex items-center justify-center gap-2"
+        class="w-full p-3 md:p-4 rounded-md transition-all cursor-pointer btn-default flex items-center justify-center gap-2"
         @click="handleSubmit"
         :disabled="isSubmitting"
       >

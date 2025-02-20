@@ -21,7 +21,17 @@
     --btn-border-color: #24292e;
     --btn-border-hover: #555555;
     --btn-text-color: #FFFFFF;
-    --btn-bg-default-hover: rgb(0, 0, 0, 0.05);
+    --btn-text-accept-color: #FFFFFF;
+    --btn-bg-default: transparent;
+    --btn-bg-primary: #24292e;
+    --btn-bg-default-hover: rgba(242,242,242,1);
+    --btn-bg-primary-hover: #555555;
+    --btn-border-default: rgba(0, 0, 0, 0.08);
+    --btn-border-primary: transparent;
+    --btn-border-default-hover: rgba(0,0,0,0.12);
+    --btn-border-primary-hover: transparent;
+    --btn-text-default: #FFFFFF;
+    --btn-text-primary: #000000;
     --card-bg: #FFFFFF;
     --card-border: rgba(0, 0, 0, 0.1);
     --card-shadow: rgba(0, 0, 0, 0.08);
@@ -81,7 +91,17 @@
     --btn-border-color: #ffffff;
     --btn-border-hover: #e5e5e5;
     --btn-text-color: #000000;
-    --btn-bg-default-hover: rgb(255, 255, 255, 0.2);
+    --btn-text-accept-color: #000000;
+    --btn-bg-default: transparent;
+    --btn-bg-primary: #FFFFFF;
+    --btn-bg-default-hover: rgb(31, 31, 31);
+    --btn-bg-primary-hover: rgba(255, 255, 255, 0.8);
+    --btn-border-default: rgba(255,255,255,0.14);
+    --btn-border-primary: transparent;
+    --btn-border-default-hover: rgba(255,255,255,0.17);
+    --btn-border-primary-hover: transparent;
+    --btn-text-primary: #000000;
+    --btn-text-default: #FFFFFF;
     --card-bg: #111111;
     --card-border: rgba(255, 255, 255, 0.1);
     --card-shadow: rgba(0, 0, 0, 0.5);
@@ -171,14 +191,24 @@ body.no-scroll {
     color: var(--text-secondary);
 }
 .btn-primary{
-    background-color: var(--btn-bg-primary);
-    border-color: var(--btn-border-color);
-    color: var(--btn-text-color);
+    background: var(--btn-bg-primary);
+    border-color: var(--btn-border-primary);
+    color: var(--btn-text-primary);
 }
 .btn-primary:hover{
-    background-color: var(--btn-bg-hover);
-    border-color: var(--btn-border-hover);
+    background: var(--btn-bg-primary-hover);
+    border-color: var(--btn-border-primary-hover);
 }
+.btn-default{
+    background: var(--btn-bg-default);
+    border: 1px solid var(--btn-border-default);
+    color: var(--btn-text-default);
+}
+.btn-default:hover{
+    background: var(--btn-bg-default-hover);
+    border-color: var(--btn-border-default-hover);
+}
+
 .clip-visible {
   clip-path: polygon(-10% -10%, 110% 0%, 110% 110%, -10% 110%);
 }
@@ -629,7 +659,7 @@ body.no-scroll {
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 50;
+    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -637,14 +667,16 @@ body.no-scroll {
 
   .language-suggestion {
     position: relative;
-    background: var(--bg-primary);
+    background: var(--header-bg);
+    -webkit-backdrop-filter: var(--header-backdrop-filter);
+    backdrop-filter: var(--header-backdrop-filter);
     border: 1px solid var(--border-primary);
     border-radius: 1.5rem;
     box-shadow: 0 4px 6px -1px var(--box-shadow);
     padding: 2rem;
     max-width: 30rem;
     width: 90%;
-    z-index: 51;
+    z-index: 1001;
     animation: modalFadeIn 0.3s ease-out;
   }
   
@@ -655,8 +687,8 @@ body.no-scroll {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(4px);
-    z-index: 50;
+    backdrop-filter: var(--header-backdrop-filter);
+    z-index: 1000;
     animation: overlayFadeIn 0.3s ease-out;
   }
   
@@ -687,22 +719,30 @@ body.no-scroll {
   .language-suggestion-reject {
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
-    color: var(--text-color);
-    background: transparent;
-    border: 1px solid var(--border-primary);
+    color: var(--btn-text-default);
+    background: var(--btn-bg-default);
+    border: 1px solid var(--btn-border-default);
     transition: all 0.2s;
     width: 100%;
     font-weight: 500;
+    cursor: pointer;
+    &:hover {
+      background: var(--btn-bg-default-hover);
+      border-color:var(--btn-border-default-hover);
+    }
   }
-  
   .language-suggestion-accept {
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
-    color: var(--text-white);
+    color: var(--btn-text-primary);
     background: var(--btn-bg-primary);
     transition: all 0.2s;
     width: 100%;
     font-weight: 500;
+    cursor: pointer;
+    &:hover {
+      background: var(--btn-bg-primary-hover);
+    }
   }
   
   @keyframes modalFadeIn {

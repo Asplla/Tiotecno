@@ -25,7 +25,7 @@
                         </nav>
                     </div>
                     <!-- Copyright -->
-                    <p class="text-sm text-center md:text-left text-secondary">© {{ new Date().getFullYear() }} Tiotecno. {{ t('footer.rights') }}</p>
+                    <p class="text-sm text-center md:text-left text-secondary">{{ t('footer.copyright') }} © {{ new Date().getFullYear() }} Tiotecno. {{ t('footer.rights') }}</p>
                 </div>
                 <!-- Language & Theme Switcher -->
                 <div class="flex items-center gap-x-4 -mt-2">
@@ -41,7 +41,7 @@
                         >
                             <!-- 翻译图标 -->
                             <WorldIcon class="w-5 h-5" />
-                            <span class="text-sm">{{ currentLocale?.label || 'Language' }}</span>
+                            <span class="text-sm px-0.5">{{ currentLocale?.label || 'Language' }}</span>
                             <!-- 下箭头图标 -->
                             <ArrowDownIcon class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': isLangOpen }" />
                         </button>

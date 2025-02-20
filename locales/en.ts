@@ -1,88 +1,141 @@
 export default {
   language: {
     name: 'English',
-    countries: ['US', 'GB', 'AU', 'CA', 'NZ', 'IE'], // 支持的国家/地区代码
-    suggestion: 'We detected that you might be from a {suggested} speaking region. Would you like to switch to {suggested}?',
-    accept: 'Switch language',
-    reject: 'Keep current'
+    countries: ['US', 'GB', 'AU', 'CA', 'NZ', 'IE', 'JP'], // 添加日本
+    suggestionTitle: 'Language Suggestion',
+    suggestionText: 'We detected you\'re from {country}. Would you like to switch to {language}?',
+    suggestionAccept: 'Switch to {language}',
+    suggestionReject: 'Keep {language}'
   },
   menu: {
     home: 'Home',
     services: 'Services',
-    about: 'About',
-    contact: 'Contact'
+    about: 'About Us',
+    contact: 'Contact Us'
+  },
+  theme: {
+    system: 'Follow system',
+    light: 'Light mode',
+    dark: 'Dark mode'
+  },
+  footer: {
+    copyright: 'Copyright',
+    rights: 'All Rights Reserved'
   },
   hero: {
     title1: 'Exploring Made in China',
-    title2: 'Infinite possibilities',
-    subtitle: 'Professional sourcing services to help you find reliable Chinese manufacturers'
+    title2: 'Infinite Possibilities',
+    subtitle: 'Professional sourcing service helping you find reliable manufacturers in China.'
   },
   contact: {
     title: 'Contact Us',
     whatsapp: {
       title: 'WhatsApp',
-      desc: 'Working hours: Mon-Fri 9:00-18:00'
+      desc: 'Working hours: Monday to Friday 9:00-18:00',
+      phone: '+86 123 4567 8901'
     },
     email: {
       title: 'Email',
-      desc: 'We will reply to your email within 24 hours'
+      desc: 'We will reply to your email within 24 hours',
+      emailName: 'contact',
+      emailDomain: 'wxss.com'
     },
     form: {
-      name: 'Your Name',
-      email: 'Your Email',
-      message: 'Your Message',
+      name: 'Your name',
+      email: 'Your email',
+      message: 'Your message',
       send: 'Send',
       sending: 'Sending...',
       validation: {
         nameRequired: 'Please enter your name',
         emailRequired: 'Please enter your email',
-        emailInvalid: 'Please enter a valid email address',
-        messageRequired: 'Please enter your message'
+        emailInvalid: 'Please enter a valid email format',
+        messageRequired: 'Please enter your message content'
       },
-      success: 'Message sent successfully',
+      success: 'Send successfully',
       error: {
-        default: 'Failed to send',
-        retry: 'Failed to send, please try again later'
+        default: 'Send failed',
+        retry: 'Send failed, please try again later'
       }
     }
   },
-  theme: {
-    system: 'System',
-    light: 'Light',
-    dark: 'Dark'
-  },
-  footer: {
-    rights: 'All rights reserved'
-  },
   about: {
     title: 'About Us',
-    subtitle: 'I am a foreign trade sourcing consultant, let me help you find the most suitable manufacturer.',
+    subtitle: 'I am a foreign trade procurement consultant, let me help you find the most suitable manufacturer.',
     stats: {
-      years: 'Years Experience',
-      clients: 'Clients Served',
-      factories: 'Factory Resources'
+      years: 'Years of experience',
+      clients: 'Clients served',
+      factories: 'Factory resources'
     },
-    description1: 'We are a professional Chinese manufacturing sourcing service company, dedicated to providing high-quality sourcing solutions for global clients.',
-    description2: 'With rich industry experience and an extensive supplier network, we help clients find the most suitable Chinese manufacturers, ensuring product quality and delivery time.'
+    description: 'We are a professional Chinese manufacturing procurement service company, committed to providing global customers with high-quality procurement solutions. With rich industry experience and a wide supplier network, we help customers find the most suitable Chinese manufacturers, ensuring product quality and delivery time.'
   },
-  products: {
-    title: 'Products',
+  weoffer: {
+    title: 'We offer',
+    subtitle: 'Professional procurement services, helping you find reliable Chinese manufacturers',
     items: {
       1: {
-        title: 'Industrial Automation',
-        description: 'Advanced automation solutions to improve production efficiency'
+        title: 'English-Chinese translation',
+        description: 'Professional English translation will accompany you全程, assisting your communication.'
       },
       2: {
-        title: 'Electronic Components',
-        description: 'High-quality electronic components ensuring product performance'
+        title: 'Factory visit transportation',
+        description: 'We have prepared a 6-seater MPV for you, ready to serve you at any time. If you prefer train, we can also arrange it.'
       },
       3: {
-        title: 'Mechanical Equipment',
-        description: 'Precision mechanical equipment meeting various manufacturing needs'
+        title: 'Comfortable accommodation',
+        description: 'We provide at least a four-star hotel for you, and take care of your meals.'
+      },
+      4: {
+        title: 'Tourism and snacks',
+        description: 'During your free time, we will take you to visit unique Chinese attractions and taste authentic Chinese food.'
+      }
+    }
+  },
+  services: {
+    title: 'Our services',
+    subtitle: 'Comprehensive procurement solutions',
+    items: {
+      1: {
+        title: 'Factory visit',
+        description: 'We arrange visits to the factories you choose or the factories we recommend.'
+      },
+      2: {
+        title: 'Product procurement',
+        description: 'We help you find reliable suppliers and ensure a flawless production and delivery process.'
+      },
+      3: {
+        title: 'Price negotiation',
+        description: 'We do not charge a middleman fee to suppliers. We only represent your interests during the negotiation period.'
       }
     }
   },
   map: {
-    label: 'Map of China'
+    label: 'Chinese map',
+    title: 'Why is it actually cheaper to source in China?',
+    items: {
+      1: {
+        title: 'Mass production, lower costs',
+        description: 'We directly connect to the source factory, saving the middleman fee.'
+      },
+      2: {
+        title: 'Supply chain concentration, faster turnaround',
+        description: 'The dense industrial belt, local team inspection and follow-up, reducing the risk of delay.'
+      },
+      3: {
+        title: 'Strict quality inspection, reducing hidden costs',
+        description: 'Full international standard inspection, avoiding extra costs such as return or compensation.'
+      },
+      4: {
+        title: 'Policy benefits, precise cost reduction',
+        description: 'With export tax rebates and free trade zone storage policies, we help you save taxes compliantly, reducing overall costs by 5%-15%.'
+      }
+    }
+  },
+  meta: {
+    title: {
+      siteName: 'Tiotecno',
+      siteDesc: 'China Foreign Trade Procurement Agent',
+      separator: ' - '
+    }
   }
 } 

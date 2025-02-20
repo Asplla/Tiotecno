@@ -1,21 +1,23 @@
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCookie } from '#app'
 import config from '~/config/config'
+import { useInitOverlay } from './useInitOverlay'
 
 // 自动导入所有语言包
 const locales = import.meta.glob('~/locales/*.ts', { eager: true })
 
+// 全局检测状态
+let isGlobalDetecting = false
+
 // 动态生成国家到语言的映射
 const countryToLanguage = Object.entries(locales).reduce((acc, [path, module]) => {
   const code = path.match(/\/([^/]+)\.ts$/)?.[1]
-  const countries = (module as any).default?.language?.countries as string[] || []
+  if (!code || !(module as any).default?.language?.countries) return acc
   
+  const countries = (module as any).default.language.countries
   countries.forEach((country: string) => {
-    // 如果一个国家已经有语言映射，我们保留第一个映射
-    if (!acc[country] && code) {
-      acc[country] = code
-    }
+    acc[country] = code
   })
   return acc
 }, {} as Record<string, string>)
@@ -23,9 +25,9 @@ const countryToLanguage = Object.entries(locales).reduce((acc, [path, module]) =
 // 动态生成语言标签映射
 const languageLabels = Object.entries(locales).reduce((acc, [path, module]) => {
   const code = path.match(/\/([^/]+)\.ts$/)?.[1]
-  if (code && (module as any).default?.language?.name) {
-    acc[code] = (module as any).default.language.name
-  }
+  if (!code || !(module as any).default?.language?.name) return acc
+  
+  acc[code] = (module as any).default.language.name
   return acc
 }, {} as Record<string, string>)
 
@@ -40,16 +42,64 @@ const checkSuggestionRejected = () => {
   return timeDiff < twelveHours
 }
 
+// 添加地理位置 API 列表
+const geoAPIs = [
+  {
+    url: 'https://get.geojs.io/v1/ip/country.json',
+    parse: (data: any) => data.country
+  },
+  {
+    url: 'https://api.db-ip.com/v2/free/self',
+    parse: (data: any) => data.countryCode
+  },
+  {
+    url: 'https://api.ipapi.is/',
+    parse: (data: any) => data.location.country.code
+  },
+  {
+    url: 'https://ipwho.is/',
+    parse: (data: any) => data.country_code
+  },
+  {
+    url: 'https://api.seeip.org/geoip',
+    parse: (data: any) => data.country_code
+  },
+  {
+    url: 'https://api.myip.com',
+    parse: (data: any) => data.cc
+  }
+]
+// 添加获取地理位置的函数
+const getLocation = async () => {
+  for (const api of geoAPIs) {
+    try {
+      const response = await fetch(api.url)
+      if (!response.ok) {
+        continue
+      }
+      
+      const data = await response.json()
+      const countryCode = api.parse(data)
+      
+      if (countryCode) {
+        return countryCode
+      }
+    } catch (error) {
+      continue
+    }
+  }
+  throw new Error('All geolocation APIs failed')
+}
+
 export const useLanguage = () => {
   const { locale, availableLocales: i18nLocales } = useI18n()
   const localeCookie = useCookie('locale', {
     maxAge: 365 * 24 * 60 * 60,
     path: '/',
-    watch: true
   })
 
-  const defaultLanguage = 'en' // 设置默认语言为英语
-  const currentCode = ref(localeCookie.value || defaultLanguage)
+  const defaultLanguage = config.language.default
+  const currentCode = ref(defaultLanguage)
   const suggestedLanguage = ref<string | null>(null)
   const showLanguageSuggestion = ref(false)
   const countryName = ref('')
@@ -63,65 +113,84 @@ export const useLanguage = () => {
   // 检查是否允许切换语言
   const canSwitchLanguage = computed(() => config.language.allowSwitch)
 
+  // 初始化语言
+  const initLanguage = () => {
+    // 如果有 cookie，使用 cookie 中的语言
+    if (localeCookie.value) {
+      currentCode.value = localeCookie.value
+      locale.value = localeCookie.value
+    } else {
+      // 否则使用默认语言
+      currentCode.value = defaultLanguage
+      locale.value = defaultLanguage
+      localeCookie.value = defaultLanguage
+    }
+  }
+
+  // 立即初始化默认语言
+  initLanguage()
+
   // 检测访问者的地理位置并设置相应的语言
   const detectAndSetLanguage = async () => {
+    // 使用全局状态检查
+    if (isGlobalDetecting) return
+    isGlobalDetecting = true
+
     try {
-      // 使用 GeoJS API 替代 ipapi.co
-      const response = await fetch('https://get.geojs.io/v1/ip/country.json', {
-        mode: 'cors'
-      })
-      const data = await response.json()
-      
-      // 获取国家名称
-      const countryResponse = await fetch(`https://get.geojs.io/v1/ip/country/${data.ip}.json`, {
-        mode: 'cors'
-      })
-      const countryData = await countryResponse.json()
-      countryName.value = countryData.name || data.country
+      // 使用新的获取位置函数
+      const countryCode = await getLocation()
 
-      // 根据国家代码获取对应的语言，如果没有对应的语言则使用默认语言
-      const detectedLanguage = countryToLanguage[data.country] || defaultLanguage
+      // 根据国家代码查找对应的语言
+      const detectedLanguage = countryToLanguage[countryCode]
+      // 如果没有检测到对应语言，默认建议英语
+      const suggestedLang = detectedLanguage || 'en'
 
-      if (localeCookie.value) {
-        // 如果当前使用的语言与定位到的地区使用的语言不一致，且未在12小时内拒绝过建议
-        if (localeCookie.value !== detectedLanguage && !checkSuggestionRejected()) {
-          // 建议切换到定位地区的语言
-          suggestedLanguage.value = detectedLanguage
-          showLanguageSuggestion.value = true
-          
-          // 获取检测到的语言包
-          const detectedLocale = Object.entries(locales).find(([path]) => 
-            path.includes(`/${detectedLanguage}.ts`)
+      // 先存储检测结果，等待 InitOverlay 消失后再显示
+      const shouldShowSuggestion = suggestedLang !== currentCode.value && !checkSuggestionRejected()
+
+      if (shouldShowSuggestion) {
+        // 准备提示消息
+        suggestedLanguage.value = suggestedLang
+        countryName.value = countryCode
+
+        // 获取检测到的语言包
+        const detectedLocale = Object.entries(locales).find(([path]) => 
+          path.includes(`/${suggestedLang}.ts`)
+        )?.[1]
+
+        if (detectedLocale && (detectedLocale as any).default?.language) {
+          const langMessages = (detectedLocale as any).default.language
+          // 获取当前语言包
+          const currentLocale = Object.entries(locales).find(([path]) => 
+            path.includes(`/${currentCode.value}.ts`)
           )?.[1]
+          const currentLangMessages = (currentLocale as any)?.default?.language
           
-          // 使用检测到的语言的提示文字
-          if (detectedLocale) {
-            suggestionMessages.value = {
-              title: (detectedLocale as any).default.language.suggestionTitle || 'Language Suggestion',
-              text: (detectedLocale as any).default.language.suggestionText || 
-                `We noticed you're browsing from ${countryName.value}. Would you like to switch to ${
-                  languageLabels[detectedLanguage]
-                }?`,
-              accept: (detectedLocale as any).default.language.suggestionAccept || 
-                `Switch to ${languageLabels[detectedLanguage]}`,
-              reject: (detectedLocale as any).default.language.suggestionReject || 
-                `Keep ${languageLabels[localeCookie.value]}`
-            }
+          suggestionMessages.value = {
+            title: langMessages.suggestionTitle || 'Language Suggestion',
+            text: (langMessages.suggestionText || 'Would you like to switch to {language}?')
+              .replace('{country}', getCountryName(countryName.value, suggestedLang))
+              .replace('{language}', languageLabels[suggestedLang]),
+            accept: (langMessages.suggestionAccept || 'Switch to {language}')
+              .replace('{language}', languageLabels[suggestedLang]),
+            reject: (currentLangMessages?.suggestionReject || 'Keep {language}')
+              .replace('{language}', languageLabels[currentCode.value])
+          }
+        } else {
+          suggestionMessages.value = {
+            title: 'Language Suggestion',
+            text: `Would you like to switch to ${languageLabels[suggestedLang]}?`,
+            accept: `Switch to ${languageLabels[suggestedLang]}`,
+            reject: `Keep ${languageLabels[currentCode.value]}`
           }
         }
-      } else {
-        // 如果没有设置语言，直接使用检测到的语言
-        currentCode.value = detectedLanguage
-        locale.value = detectedLanguage
-        localeCookie.value = detectedLanguage
+
+        showLanguageSuggestion.value = true
       }
     } catch (error) {
-      console.error('Failed to detect location:', error)
-      if (!localeCookie.value) {
-        currentCode.value = defaultLanguage
-        locale.value = defaultLanguage
-        localeCookie.value = defaultLanguage
-      }
+      initLanguage()
+    } finally {
+      isGlobalDetecting = false
     }
   }
 
@@ -145,8 +214,10 @@ export const useLanguage = () => {
   }
 
   if (process.client) {
-    // 在客户端初始化时检测语言
-    detectAndSetLanguage()
+    // 等待页面加载完成后再检测
+    onMounted(() => {
+      detectAndSetLanguage()
+    })
   }
 
   const availableLocales = computed(() => 
@@ -171,6 +242,16 @@ export const useLanguage = () => {
     currentCode.value = code
     locale.value = code
     localeCookie.value = code
+  }
+
+  // 获取国家名称
+  const getCountryName = (code: string, languageCode?: string) => {
+    const regionNames = new Intl.DisplayNames([languageCode || locale.value], { type: 'region' })
+    try {
+      return regionNames.of(code) || code
+    } catch (error) {
+      return code
+    }
   }
 
   return {

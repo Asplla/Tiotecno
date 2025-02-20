@@ -26,15 +26,13 @@
   </Transition>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useLanguage } from '~/composables/useLanguage'
 
-const { 
-  currentLocale,
-  suggestedLocale,
+const {
   showLanguageSuggestion,
+  suggestionMessages,
   acceptLanguageSuggestion,
-  rejectLanguageSuggestion,
-  suggestionMessages
+  rejectLanguageSuggestion
 } = useLanguage()
-</script> 
+</script>

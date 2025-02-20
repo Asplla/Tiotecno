@@ -7,10 +7,10 @@
     <!-- 内容区域 -->
     <div class="relative z-10 text-center">
       <h1 class="hero-title text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-        <div>探索中国制造</div>
-        <div>的无限可能</div>
+        <div>{{ t('hero.title1') }}</div>
+        <div>{{ t('hero.title2') }}</div>
       </h1>
-      <p class="hero-subtitle text-xl md:text-2xl">专业采购服务，助您找到可靠的中国制造商</p>
+      <p class="hero-subtitle text-xl md:text-2xl">{{ t('hero.subtitle') }}</p>
     </div>
     <!-- 鼠标滚动效果 -->
     <div class="move-down">
@@ -22,8 +22,8 @@
     <div class="container mx-auto px-6">
       <!-- Section Title -->
       <div class="text-center mb-10 md:mb-16">
-        <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">我们的服务</h2>
-        <p class="text-xl md:text-2xl text-secondary max-w-2xl mx-auto">全方位的采购解决方案</p>
+        <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">{{ t('services.title') }}</h2>
+        <p class="text-xl md:text-2xl text-secondary max-w-2xl mx-auto">{{ t('services.subtitle') }}</p>
       </div>
       <!-- Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -32,8 +32,8 @@
           <div class="mb-4">
             <FactoryIcon class="w-12 h-12 text-primary" />
           </div>
-          <h3 class="card-title">工厂参观</h3>
-          <p class="card-description">我们安排参观您选择的工厂或我们推荐的工厂。</p>
+          <h3 class="card-title">{{ t('services.items.1.title') }}</h3>
+          <p class="card-description">{{ t('services.items.1.description') }}</p>
         </div>
 
         <!-- 产品采购卡片 -->
@@ -41,8 +41,8 @@
           <div class="mb-4">
             <ShopCartIcon class="w-12 h-12 text-primary" />
           </div>
-          <h3 class="card-title">产品采购</h3>
-          <p class="card-description">我们帮助您找到可靠的供应商，并确保无错误的生产和交付过程。</p>
+          <h3 class="card-title">{{ t('services.items.2.title') }}</h3>
+          <p class="card-description">{{ t('services.items.2.description') }}</p>
         </div>
 
         <!-- 价格谈判卡片 -->
@@ -50,8 +50,8 @@
           <div class="mb-4">
             <TransferIcon class="w-12 h-12 text-primary" />
           </div>
-          <h3 class="card-title">价格谈判</h3>
-          <p class="card-description">我们不向供应商收取中介费。我们只在谈判期间代表您的利益。</p>
+          <h3 class="card-title">{{ t('services.items.3.title') }}</h3>
+          <p class="card-description">{{ t('services.items.3.description') }}</p>
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@
     <div class="container mx-auto px-6">
       <!-- Section Title -->
       <div class="text-center mb-10 md:mb-16">
-        <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">为什么亲自去中国实际上可以省钱？</h2>
+        <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">{{ t('map.title') }}</h2>
       </div>
       <!-- Content -->
       <div class="max-w-6xl mx-auto">
@@ -69,23 +69,23 @@
           <div class="lg:col-span-2 space-y-6">
             <!-- Card 1 - Price Advantage -->
             <div class="card rounded-xl p-4 md:p-6">
-              <h3 class="text-xl font-bold text-primary mb-3">竞争性定价</h3>
-              <p class="text-secondary">获取竞争性定价和成本效益制造解决方案</p>
+              <h3 class="text-xl font-bold text-primary mb-3">{{ t('map.items.1.title') }}</h3>
+              <p class="text-secondary">{{ t('map.items.1.description') }}</p>
             </div>
             <!-- Card 2 - Guanxi -->
             <div class="card rounded-xl p-4 md:p-6">
-              <h3 class="text-xl font-bold text-primary mb-3">强关系</h3>
-              <p class="text-secondary">与可靠制造商和供应商建立关系</p>
+              <h3 class="text-xl font-bold text-primary mb-3">{{ t('map.items.2.title') }}</h3>
+              <p class="text-secondary">{{ t('map.items.2.description') }}</p>
             </div>
             <!-- Card 3 - Mutual Value -->
             <div class="card rounded-xl p-4 md:p-6">
-              <h3 class="text-xl font-bold text-primary mb-3">质量保证</h3>
-              <p class="text-secondary">严格的质量控制和检验过程</p>
+              <h3 class="text-xl font-bold text-primary mb-3">{{ t('map.items.3.title') }}</h3>
+              <p class="text-secondary">{{ t('map.items.3.description') }}</p>
             </div>
             <!-- Card 4 - Time Efficiency -->
             <div class="card rounded-xl p-4 md:p-6">
-              <h3 class="text-xl font-bold text-primary mb-3">时间效率</h3>
-              <p class="text-secondary">快速周转时间和高效的生产过程</p>
+              <h3 class="text-xl font-bold text-primary mb-3">{{ t('map.items.4.title') }}</h3>
+              <p class="text-secondary">{{ t('map.items.4.description') }}</p>
             </div>
           </div>
           <div class="lg:col-span-3 w-full h-full flex items-center">
@@ -100,8 +100,8 @@
     <div class="container mx-auto px-6">
       <!-- Section Title -->
       <div class="text-center mb-10 md:mb-16">
-        <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">我们提供</h2>
-        <p class="text-xl md:text-2xl text-secondary">全方位的采购解决方案</p>
+        <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">{{ t('weoffer.title') }}</h2>
+        <p class="text-xl md:text-2xl text-secondary">{{ t('weoffer.subtitle') }}</p>
       </div>
       <!-- Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
@@ -112,8 +112,8 @@
               <LanguageIcon class="w-10 h-10 text-primary" />
             </div>
             <div>
-              <h3 class="text-xl font-bold text-primary mb-2">英语-中文翻译</h3>
-              <p class="text-secondary">专业的英语翻译将全程陪同您，协助您的沟通。</p>
+              <h3 class="text-xl font-bold text-primary mb-2">{{ t('weoffer.items.1.title') }}</h3>
+              <p class="text-secondary">{{ t('weoffer.items.1.description') }}</p>
             </div>
           </div>
         </div>
@@ -125,8 +125,8 @@
               <BusIcon class="w-10 h-10 text-primary" />
             </div>
             <div>
-              <h3 class="text-xl font-bold text-primary mb-2">工厂参观交通</h3>
-              <p class="text-secondary">我们为您准备了6座MPV，随时为您服务。如果您更喜欢火车，我们也可以安排。</p>
+              <h3 class="text-xl font-bold text-primary mb-2">{{ t('weoffer.items.2.title') }}</h3>
+              <p class="text-secondary">{{ t('weoffer.items.2.description') }}</p>
             </div>
           </div>
         </div>
@@ -138,8 +138,8 @@
               <BedIcon class="w-10 h-10 text-primary" />
             </div>
             <div>
-              <h3 class="text-xl font-bold text-primary mb-2">舒适的住宿</h3>
-              <p class="text-secondary">我们为您提供至少四星级酒店，并照顾您的三餐。</p>
+              <h3 class="text-xl font-bold text-primary mb-2">{{ t('weoffer.items.3.title') }}</h3>
+              <p class="text-secondary">{{ t('weoffer.items.3.description') }}</p>
             </div>
           </div>
         </div>
@@ -151,8 +151,8 @@
               <MapIcon class="w-10 h-10 text-primary" />
             </div>
             <div>
-              <h3 class="text-xl font-bold text-primary mb-2">观光旅游和零食</h3>
-              <p class="text-secondary">在您的空闲时间，我们将带您参观中国的独特景点，品尝正宗的美食。</p>
+              <h3 class="text-xl font-bold text-primary mb-2">{{ t('weoffer.items.4.title') }}</h3>
+              <p class="text-secondary">{{ t('weoffer.items.4.description') }}</p>
             </div>
           </div>
         </div>
@@ -164,7 +164,7 @@
     <div class="container mx-auto px-6">
       <!-- Section Title -->
       <div class="text-center mb-10 md:mb-16">
-        <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">关于我们</h2>
+        <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">{{ t('about.title') }}</h2>
       </div>
       <!-- Content -->
       <div class="flex justify-center">
@@ -173,24 +173,22 @@
             <Noavatar class="w-full h-full object-cover" />
           </div>
           <div class="max-w-3xl">
-            <h3 class="text-2xl md:text-3xl font-bold text-primary mb-6 md:mb-8 text-center md:text-left">
-              我是一名外贸采购顾问，让我帮您找到最合适的制造商。</h3>
+            <h3 class="text-2xl md:text-3xl font-bold text-primary mb-6 md:mb-8 text-center md:text-left">{{ t('about.subtitle') }}</h3>
             <div class="grid grid-cols-3 md:flex md:flex-row gap-4 md:gap-24">
               <div class="text-center md:text-left">
                 <div class="text-3xl md:text-5xl font-bold text-primary mb-1 md:mb-2">10+</div>
-                <div class="text-xs md:text-base text-secondary">年经验</div>
+                <div class="text-xs md:text-base text-secondary">{{ t('about.stats.years') }}</div>
               </div>
               <div class="text-center md:text-left">
                 <div class="text-3xl md:text-5xl font-bold text-primary mb-1 md:mb-2">500+</div>
-                <div class="text-xs md:text-base text-secondary">服务客户</div>
+                <div class="text-xs md:text-base text-secondary">{{ t('about.stats.clients') }}</div>
               </div>
               <div class="text-center md:text-left">
                 <div class="text-3xl md:text-5xl font-bold text-primary mb-1 md:mb-2">1000+</div>
-                <div class="text-xs md:text-base text-secondary">工厂资源</div>
+                <div class="text-xs md:text-base text-secondary">{{ t('about.stats.factories') }}</div>
               </div>
             </div>
-            <p class="text-secondary mt-6 md:mt-8 text-center md:text-left text-sm md:text-base">
-              作为一名经验丰富的外贸顾问，我深刻理解选择合适的供应商对于公司发展的重要性。让我帮助您在中国找到最合适的制造商。</p>
+            <p class="text-secondary mt-6 md:mt-8 text-center md:text-left text-sm md:text-base">{{ t('about.description') }}</p>
           </div>
         </div>
       </div>
@@ -201,7 +199,7 @@
     <div class="container mx-auto px-6">
       <!-- Section Title -->
       <div class="text-center mb-10 md:mb-16">
-        <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">联系我们</h2>
+        <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">{{ t('contact.title') }}</h2>
       </div>
       <!-- Content -->
       <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
@@ -211,9 +209,9 @@
             <div class="flex items-start gap-4">
               <WhatsappIcon class="w-12 h-12 text-green-500" />
               <div>
-                <span class="text-xl md:text-2xl text-primary font-bold">WhatsApp</span>
-                <p class="text-secondary mt-2 mb-2">通过 WhatsApp 与我们联系，获取快速响应。</p>
-                <p class="text-primary text-lg md:text-xl">+86 123 4567 8901</p>
+                <span class="text-xl md:text-2xl text-primary font-bold">{{ t('contact.whatsapp.title') }}</span>
+                <p class="text-secondary mt-2 mb-2">{{ t('contact.whatsapp.desc') }}</p>
+                <p class="text-primary text-lg md:text-xl">{{ t('contact.whatsapp.phone') }}</p>
               </div>
             </div>
           </div>
@@ -222,16 +220,20 @@
             <div class="flex items-start gap-4">
               <MailIcon class="w-12 h-12 text-blue-500" />
               <div>
-                <span class="text-xl md:text-2xl text-primary font-bold">Email</span>
-                <p class="text-secondary mt-2 mb-2">发送电子邮件进行详细咨询。</p>
-                <p class="text-primary text-lg md:text-xl"><a href="mailto:contact@wxss.com">contact@wxss.com</a></p>
+                <span class="text-xl md:text-2xl text-primary font-bold">{{ t('contact.email.title') }}</span>
+                <p class="text-secondary mt-2 mb-2">{{ t('contact.email.desc') }}</p>
+                <p class="text-primary text-lg md:text-xl">
+                  <a :href="`mailto:${t('contact.email.emailName')}@${t('contact.email.emailDomain')}`">
+                    {{ t('contact.email.emailName') }}@{{ t('contact.email.emailDomain') }}
+                  </a>
+                </p>
               </div>
             </div>
           </div>
         </div>
         <SendEmail />
       </div>
-    </div>
+  </div>
   </section>
 </template>
 
@@ -260,7 +262,9 @@ import BusIcon from '~/assets/icon/bus.svg'
 import BedIcon from '~/assets/icon/bed.svg'
 import MapIcon from '~/assets/icon/map.svg'
 import SendEmail from '~/components/SendEmail.vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 </script>
 <style scoped>
 /* 我们现在使用 Tailwind 的类，不需要额外的 CSS */
-</style>
+</style> 
