@@ -32,6 +32,14 @@ export default defineNuxtConfig({
   },
   tailwindcss: {
     config: {
+      content: [
+        './components/**/*.{js,vue,ts}',
+        './layouts/**/*.vue',
+        './pages/**/*.vue',
+        './plugins/**/*.{js,ts}',
+        './nuxt.config.{js,ts}',
+        './app.vue'
+      ],
       safelist: [
         'space-x-1',
         'space-x-2',
