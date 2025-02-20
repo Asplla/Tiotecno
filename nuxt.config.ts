@@ -25,13 +25,6 @@ export default defineNuxtConfig({
     }
   },
   nitro: {
-    devProxy: {
-      '/api': {
-        target: 'https://myphp-theta-three.vercel.app',
-        changeOrigin: true,
-        prependPath: true
-      }
-    },
     preset: 'vercel-edge'
   },
   vite: {

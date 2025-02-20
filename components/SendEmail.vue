@@ -40,7 +40,7 @@
 import { ref } from 'vue'
 import { useNuxtApp } from '#app'
 import { useI18n } from 'vue-i18n'
-import { $fetch } from 'ofetch'
+import { useFetch } from '#app'
 
 const { $toast: toast } = useNuxtApp()
 const { t } = useI18n()
@@ -80,21 +80,16 @@ const handleSubmit = async () => {
 
   try {
     isSubmitting.value = true
-    const data = await $fetch('https://myphp-theta-three.vercel.app/api/index.php?mod=sendemail', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: new URLSearchParams({
+    const { data } = await useFetch('/api/sendemail', {
+      method: 'post',
+      body: {
         name: formData.value.name,
         email: formData.value.email,
         content: formData.value.message
-      }).toString()
+      }
     })
 
-    if (data?.code === '200' || data?.code === 200) {
+    if (data.value?.code === '200' || data.value?.code === 200) {
       toast.success(t('contact.form.success'))
       // 清空表单
       formData.value = {
@@ -103,7 +98,7 @@ const handleSubmit = async () => {
         message: ''
       }
     } else {
-      toast.error(data?.msg || t('contact.form.error.default'))
+      toast.error(data.value?.msg || t('contact.form.error.default'))
     }
   } catch (error) {
     console.error('Failed to send email:', error)
