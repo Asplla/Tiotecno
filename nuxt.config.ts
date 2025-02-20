@@ -4,7 +4,7 @@ import svgLoader from "vite-svg-loader";
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  ssr: false,
+  ssr: true,
   imports: {
     dirs: ['composables/**']
   },
