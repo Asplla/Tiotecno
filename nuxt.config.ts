@@ -19,7 +19,6 @@ export default defineNuxtConfig({
     },
   },
   router: {
-    trailingSlash: true,
     options: {
       hashMode: false,
       scrollBehaviorType: 'smooth'
@@ -33,7 +32,10 @@ export default defineNuxtConfig({
         prependPath: false
       }
     },
-    preset: 'vercel'
+    preset: 'vercel',
+    routeRules: {
+      '/': { prerender: true }
+    }
   },
   vite: {
     plugins: [
