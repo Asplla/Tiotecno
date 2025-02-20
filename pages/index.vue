@@ -253,6 +253,7 @@ import BedIcon from '~/assets/icon/bed.svg'
 import MapIcon from '~/assets/icon/map.svg'
 import SendEmail from '~/components/SendEmail.vue'
 import { onMounted } from 'vue'
+import { useSeo } from '~/composables/useSeo'
 
 const { t } = useI18n()
 const { currentLocale } = useLanguage()
@@ -266,6 +267,17 @@ onMounted(() => {
       console.log("Video autoplay failed:", error);
     });
   }
+})
+
+// 设置页面特定的 SEO
+useSeo({
+  title: `${t('meta.title.siteName')}${t('meta.title.separator')}${t('meta.title.siteDesc')}`,
+  description: t('meta.description'),
+  keywords: [
+    t('meta.keywords.sourcing'),
+    t('meta.keywords.china'),
+    t('meta.keywords.manufacturing')
+  ]
 })
 </script>
 <style scoped>
