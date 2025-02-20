@@ -1,0 +1,4 @@
+{
+  "buildCommand": "npm install @rollup/wasm-node && nuxt build",
+  "outputDirectory": ".output/public"
+} 
