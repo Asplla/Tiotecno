@@ -1,34 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "nuxt.config.ts",
-      "config": {
-        "version": 3,
-        "nodeVersion": "18.x",
-        "generateStaticRoutes": true,
-        "postcss": {
-          "plugins": {
-            "tailwindcss": {},
-            "autoprefixer": {}
-          }
-        },
-        "serverFiles": [
-          "server/**",
-          "api/**",
-          "plugins/**",
-          "composables/**",
-          "config/**",
-          "locales/**",
-          "assets/**",
-          "components/**",
-          "layouts/**",
-          "pages/**",
-          "*.{js,ts,json}"
-        ]
-      }
-    }
-  ],
+  "buildCommand": "nuxt build",
+  "outputDirectory": ".output/public",
+  "devCommand": "nuxt dev",
+  "framework": "nuxt",
+  "ignoreCommand": "!.output",
   "routes": [
     {
       "src": "/api/(.*)",
