@@ -1,5 +1,5 @@
 import { useI18n } from 'vue-i18n'
-import { useHead } from '#imports'
+import { useHead } from '#app'
 import { useLanguage } from './useLanguage'
 import config from '~/config/config'
 
@@ -8,23 +8,23 @@ export const usePageMeta = (pageTitle?: string) => {
   const { currentLocale } = useLanguage()
   const defaultLanguage = config.language.default
 
-  useHead(() => {
-    // 使用当前语言或默认语言
-    const currentLang = currentLocale.value?.code || defaultLanguage
-
-    const separator = t('meta.title.separator')
-    const siteName = t('meta.title.siteName')
-    const siteDesc = t('meta.title.siteDesc')
-
-    const title = pageTitle
-      ? `${pageTitle}${separator}${siteName}${separator}${siteDesc}`
-      : `${siteName}${separator}${siteDesc}`
-
-    return {
-      title,
-      htmlAttrs: {
-        lang: currentLang
+  useHead({
+    htmlAttrs: {
+      lang: currentLocale.value?.code || defaultLanguage
+    },
+    title: pageTitle 
+      ? `${pageTitle} - ${config.site.title}`
+      : config.site.title,
+    meta: [
+      {
+        name: 'description',
+        content: config.site.description
       }
-    }
+    ]
   })
+
+  return {
+    title: pageTitle || config.site.title,
+    lang: currentLocale.value?.code || defaultLanguage
+  }
 } 

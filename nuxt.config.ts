@@ -4,6 +4,27 @@ import svgLoader from "vite-svg-loader";
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
+  ssr: true,
+  imports: {
+    dirs: ['composables/**']
+  },
+  experimental: {
+    payloadExtraction: false
+  },
+  app: {
+    head: {
+      meta: [
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+      ]
+    },
+  },
+  router: {
+    trailingSlash: true,
+    options: {
+      hashMode: false,
+      scrollBehaviorType: 'smooth'
+    }
+  },
   nitro: {
     devProxy: {
       '/api': {
@@ -12,9 +33,7 @@ export default defineNuxtConfig({
         prependPath: false
       }
     },
-    output: {
-      dir: 'dist'
-    }
+    preset: 'vercel'
   },
   vite: {
     plugins: [
@@ -40,22 +59,11 @@ export default defineNuxtConfig({
     '@/assets/css/main.css'
   ],
   plugins: [
-    '@/plugins/toast.ts',
-    '@/plugins/i18n.ts'
+    '~/plugins/toast',
+    '~/plugins/i18n',
+    '~/plugins/smoothScroll.client'
   ],
-  components: {
-    dirs: [
-      {
-        path: '~/components',
-        extensions: ['.vue'],
-      }
-    ]
+  build: {
+    transpile: ['vue-i18n']
   },
-  app: {
-    head: {
-      meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
-      ]
-    }
-  }
 })

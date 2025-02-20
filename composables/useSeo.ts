@@ -1,4 +1,5 @@
-import { useHead, useRoute } from '#imports'
+import { useHead } from '#app'
+import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import config from '~/config/config'
 

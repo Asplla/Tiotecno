@@ -9,6 +9,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
     globalInjection: true,
     locale: 'zh',
     fallbackLocale: 'zh',
+    allowComposition: true,
     messages: {
       zh,
       en,
@@ -17,4 +18,10 @@ export default defineNuxtPlugin(({ vueApp }) => {
   })
 
   vueApp.use(i18n)
+
+  return {
+    provide: {
+      i18n: i18n.global
+    }
+  }
 }) 

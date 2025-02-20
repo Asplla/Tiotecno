@@ -237,21 +237,10 @@
   </section>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'HomePage',
-  mounted() {
-    const video = document.querySelector('.hero-bg video');
-    if (video) {
-      video.play().catch(error => {
-        console.log("Video autoplay failed:", error);
-      });
-    }
-  }
-}
-</script>
 <script setup lang="ts">
-//import { useSeo } from '~/composables/useSeo'
+import { useI18n } from 'vue-i18n'
+import { useLanguage } from '~/composables/useLanguage'
+import config from '~/config/config'
 import Noavatar from '~/assets/img/noavatar.svg'
 import FactoryIcon from '~/assets/icon/building-factory.svg'
 import ShopCartIcon from '~/assets/icon/shopping-cart.svg'
@@ -263,14 +252,21 @@ import BusIcon from '~/assets/icon/bus.svg'
 import BedIcon from '~/assets/icon/bed.svg'
 import MapIcon from '~/assets/icon/map.svg'
 import SendEmail from '~/components/SendEmail.vue'
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+import { onMounted } from 'vue'
 
-// useSeo({
-//   title: 'Home Page - Your Site',
-//   description: 'Specific description for the home page',
-//   keywords: ['specific', 'keywords', 'for', 'home', 'page']
-// })
+const { t } = useI18n()
+const { currentLocale } = useLanguage()
+const defaultLanguage = config.language.default
+
+// 处理视频播放
+onMounted(() => {
+  const video = document.querySelector('.hero-bg video') as HTMLVideoElement;
+  if (video) {
+    video.play().catch((error: Error) => {
+      console.log("Video autoplay failed:", error);
+    });
+  }
+})
 </script>
 <style scoped>
 /* 我们现在使用 Tailwind 的类，不需要额外的 CSS */
