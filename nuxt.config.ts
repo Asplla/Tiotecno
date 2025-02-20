@@ -1,3 +1,4 @@
+import tailwindcss from "@tailwindcss/vite";
 import svgLoader from "vite-svg-loader";
 
 export default defineNuxtConfig({
@@ -17,6 +18,7 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [
+      tailwindcss(),
       svgLoader({
         svgoConfig: {
           multipass: true,
@@ -33,12 +35,6 @@ export default defineNuxtConfig({
         },
       }),
     ],
-  },
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
   },
   css: [
     '@/assets/css/main.css'
