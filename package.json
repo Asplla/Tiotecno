@@ -7,7 +7,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "node -v && npm -v && nuxt prepare"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.7",
@@ -20,5 +20,11 @@
     "nuxt": "^3.15.4",
     "vite-svg-loader": "^5.1.0"
   },
-  "__npminstall_done": false
+  "overrides": {
+    "rollup": "npm:@rollup/wasm-node"
+  },
+  "__npminstall_done": false,
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
