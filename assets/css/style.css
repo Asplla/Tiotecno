@@ -606,7 +606,15 @@ body.no-scroll {
     right: 0;
     height: 5px;
   }
-  
+  .dropdown-btn {
+    background-color: var(--btn-bg-default);
+    border: 1px solid var(--btn-border-default);
+    cursor: pointer;
+    &:hover {
+      background-color: var(--btn-bg-default-hover);
+      border-color: var(--btn-border-default-hover);
+    }
+  }
   /* 下拉菜单动画效果 */
   .dropdown-container > .dropdown-menu {
     opacity: 0;

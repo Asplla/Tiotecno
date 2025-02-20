@@ -38,7 +38,7 @@
                         @mouseleave="isLangOpen = false"
                     >
                         <button 
-                            class="flex items-center space-x-1 px-3 py-2 rounded-md footer-btn"
+                            class="dropdown-btn flex items-center space-x-1 px-3 py-2 rounded-md footer-btn"
                         >
                             <!-- 翻译图标 -->
                             <WorldIcon class="w-5 h-5" />
