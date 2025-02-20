@@ -10,12 +10,15 @@
 
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center gap-8">
-          <a v-for="item in menuItems" :key="item.href" :href="item.href" class="text-sm navbar-link transition-colors"
-            :class="{
-              'active': activeSection === item.href.substring(1)
-            }"
-            @click="scrollToSection($event, item.href)">
-            {{ t(item.text) }}
+          <a 
+            v-for="item in menuItems" 
+            :key="item.href"
+            :href="item.href"
+            @click.prevent="scrollToElement(item.href.substring(1))"
+            class="text-sm navbar-link transition-colors"
+            :class="{ 'active': activeSection === item.href.substring(1) }"
+          >
+            {{ t(`menu.${item.href.substring(1)}`) }}
           </a>
         </nav>
 
@@ -44,9 +47,15 @@
           ]"
         >
           <nav class="container mx-auto px-6 py-4 flex flex-col space-y-4 transition-all duration-400 transform-gpu overflow-y-auto scrollbar-hidden">
-            <a v-for="item in menuItems" :key="item.href" :href="item.href"
-              class="text-sm text-primary transition-colors py-2" @click="scrollToSection($event, item.href)">
-              {{ t(item.text) }}
+            <a 
+              v-for="item in menuItems" 
+              :key="item.href"
+              :href="item.href"
+              @click.prevent="scrollToElement(item.href.substring(1))"
+              class="text-sm text-primary transition-colors py-2"
+              :class="{ 'active': activeSection === item.href.substring(1) }"
+            >
+              {{ t(`menu.${item.href.substring(1)}`) }}
             </a>
           </nav>
         </div>
@@ -119,6 +128,22 @@ const scrollToSection = (e, href) => {
     })
     isMenuOpen.value = false
     document.body.classList.remove('no-scroll')
+  }
+}
+
+const scrollToElement = (elementId) => {
+  if (!process.client) return
+  
+  const element = document.getElementById(elementId)
+  if (element) {
+    const headerOffset = 65
+    const elementPosition = element.getBoundingClientRect().top
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    })
   }
 }
 

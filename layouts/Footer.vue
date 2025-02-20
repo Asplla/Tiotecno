@@ -18,6 +18,7 @@
                                 v-for="item in menuItems" 
                                 :key="item.href"
                                 :href="item.href" 
+                                @click.prevent="scrollToElement(item.href.substring(1))"
                                 class="text-sm navbar-link transition-colors"
                             >
                                 {{ t(`menu.${item.href.substring(1)}`) }}
@@ -112,5 +113,21 @@ const changeLang = (code) => {
 
 const switchLocale = () => {
     // TODO: Implement locale switching logic
+}
+
+const scrollToElement = (elementId) => {
+    if (!process.client) return
+    
+    const element = document.getElementById(elementId)
+    if (element) {
+        const headerOffset = 65
+        const elementPosition = element.getBoundingClientRect().top
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        })
+    }
 }
 </script>
