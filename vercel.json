@@ -1,8 +1,6 @@
 {
   "version": 2,
-  "framework": "nuxt",
   "buildCommand": "nuxt build",
-  "devCommand": "nuxt dev",
   "outputDirectory": ".output/public",
   "headers": [
     {
@@ -22,12 +20,5 @@
         }
       ]
     }
-  ],
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
-  ],
-  "env": {
-    "NITRO_PRESET": "vercel",
-    "NODE_ENV": "production"
-  }
+  ]
 }
