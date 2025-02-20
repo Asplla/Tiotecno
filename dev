@@ -1,0 +1,93 @@
+> nuxt dev
+
+Nuxt 3.15.4 with Nitro 2.10.4                                                                                                             nuxi 23:27:41
+                                                                                                                                               23:27:42
+  ➜ Local:    http://localhost:3000/
+  ➜ Network:  use --host to expose
+
+  ➜ DevTools: press Shift + Option + D in the browser (v1.7.0)                                                                                 23:27:43
+
+✔ Vite client built in 27ms                                                                                                                   23:27:43
+✔ Vite server built in 733ms                                                                                                                  23:27:44
+✔ Nuxt Nitro server built in 589 ms                                                                                                     nitro 23:27:45
+ℹ Vite client warmed up in 6ms                                                                                                                23:27:45
+ℹ Vite server warmed up in 992ms                                                                                                              23:27:46
+
+ WARN  [intlify] 'v-t' has been deprecated in v11. Use translate APIs ('t' or '$t') instead.
+
+[23:28:42] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/defaul
+[23:28:42] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/default.vue
+[23:33:05] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/defaul
+[23:33:05] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/default.vue (x2)
+[23:34:01] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/defaul
+[23:34:01] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/default.vue (x3)
+[23:34:52] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/defaul
+[23:34:52] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/default.vue (x4)
+[23:36:23] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/defaul
+[23:36:23] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/default.vue (x5)
+✔ Vite server hmr 27 files in 51.746ms
+[23:37:01] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/defaul
+[23:37:01] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/default.vue (x6)
+[23:37:19] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/defaul
+[23:37:19] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/default.vue (x7)
+[23:42:43] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/defaul
+[23:42:43] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/default.vue (x8)
+[23:42:52] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/defaul
+[23:42:52] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/default.vue (x9)
+[23:43:03] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/defaul
+[23:43:03] ℹ hmr update /components/InitOverlay.vue, /app.vue, /layouts/Footer.vue, /pages/index.vue, /components/LanguageSuggestion.vue, /layouts/default.vue (x10)
+✔ Vite server hmr 27 files in 83.396ms
+ℹ page reload locales/en.ts                                                                                                                   23:49:56
+ℹ page reload locales/es.ts                                                                                                                   23:49:56
+ℹ page reload locales/zh.ts                                                                                                                   23:49:56
+[23:49:56] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes
+[23:49:56] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes.mjs
+✔ Vite server hmr 30 files in 304.74ms
+[23:50:45] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes
+[23:50:45] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes.mjs (x2)
+✔ Vite server hmr 11 files in 62.767ms
+[23:51:26] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes
+[23:51:26] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes.mjs (x3)
+✔ Vite server hmr 11 files in 37.85ms
+[23:53:11] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes
+[23:53:11] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes.mjs (x4)
+ℹ hmr update /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes.mjs              23:53:11
+ℹ hmr update /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes.mjs (x2)         23:53:11
+[23:53:23] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes
+[23:53:23] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes.mjs
+✔ Vite server hmr 11 files in 49.616ms
+[23:54:02] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes
+[23:54:02] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes.mjs (x2)
+✔ Vite server hmr 11 files in 43.884ms
+ℹ page reload locales/es.ts                                                                                                                   23:54:47
+✔ Vite server hmr 21 files in 43.987ms
+ℹ page reload locales/es.ts (x2)                                                                                                              23:54:47
+ℹ page reload locales/es.ts (x3)                                                                                                              23:54:47
+✔ Vite server hmr 21 files in 74.041ms
+ℹ page reload locales/zh.ts                                                                                                                   23:54:52
+✔ Vite server hmr 21 files in 53.539ms
+ℹ page reload locales/zh.ts (x2)                                                                                                              23:54:53
+✔ Vite server hmr 21 files in 51.61ms
+ℹ page reload locales/en.ts                                                                                                                   23:54:56
+✔ Vite server hmr 21 files in 23.442ms
+ℹ page reload locales/en.ts (x2)                                                                                                              23:54:57
+✔ Vite server hmr 21 files in 12.706ms
+[23:55:44] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes
+[23:55:44] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes.mjs
+✔ Vite server hmr 11 files in 36.702ms
+[23:56:17] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes
+[23:56:17] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes.mjs (x2)
+ℹ hmr update /app.vue                                                                                                                         23:56:45
+✔ Vite server hmr 15 files in 90.629ms
+[23:59:32] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes
+[23:59:32] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes.mjs
+[23:59:40] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes
+[23:59:40] ℹ hmr update /pages/index.vue, /pages/index.vue?macro=true, /@id/virtual:nuxt:%2FUsers%2Fivan%2FDocuments%2FGithub%2FTiotecno%2F.nuxt%2Froutes.mjs (x2)
+✔ Vite server hmr 11 files in 71.188ms
+ℹ nuxt.config.ts updated. Restarting Nuxt...                                                                                             nuxi 00:03:11
+  ➜ DevTools: press Shift + Option + D in the browser (v1.7.0)                                                                                 00:03:11
+
+✔ Vite client built in 25ms                                                                                                                   00:03:11
+✔ Vite server built in 226ms                                                                                                                  00:03:11
+✔ Nuxt Nitro server built in 690 ms                                                                                                     nitro 00:03:12
+ℹ Vite client warmed up in 5ms                                                                                                                00:03:12
