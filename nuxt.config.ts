@@ -32,7 +32,7 @@ export default defineNuxtConfig({
         prependPath: false
       }
     },
-    preset: 'vercel-edge'
+    preset: 'vercel'
   },
   vite: {
     plugins: [

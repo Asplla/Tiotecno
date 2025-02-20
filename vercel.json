@@ -26,5 +26,9 @@
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ]
+  ],
+  "buildCommand": "nuxt build",
+  "devCommand": "nuxt dev",
+  "framework": "nuxt",
+  "outputDirectory": ".output/public"
 }
