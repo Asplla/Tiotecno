@@ -199,18 +199,16 @@
       </div>
     </div>
   </section>
-  <!-- Contact Section-->
+  <!-- Contact Section -->
   <section id="contact" class="contact py-20 bg-secondary">
     <div class="container mx-auto px-6">
-      <!-- Section Title -->
-      <div class="text-center mb-10 md:mb-16">
-        <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">联系我们</h2>
-      </div>
+      <!-- Title -->
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">联系我们</h2>
       <!-- Content -->
       <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-        <div class="grid gap-y-8 h-full flex-col justify-between">
+        <div class="grid gap-y-8 h-full">
           <!-- WhatsApp -->
-          <div class="card rounded-2xl p-7 hover:bg-primary/50">
+          <div class="card rounded-2xl p-7 hover:bg-primary/50 w-full">
             <div class="flex items-start gap-4">
               <WhatsappIcon class="w-12 h-12 text-green-500" />
               <div>
@@ -221,7 +219,7 @@
             </div>
           </div>
           <!-- Email -->
-          <div class="card rounded-2xl p-7 hover:bg-primary/50">
+          <div class="card rounded-2xl p-7 hover:bg-primary/50 w-full">
             <div class="flex items-start gap-4">
               <MailIcon class="w-12 h-12 text-blue-500" />
               <div>
@@ -232,6 +230,7 @@
             </div>
           </div>
         </div>
+        <!-- Contact Form -->
         <SendEmail />
       </div>
     </div>
