@@ -3,11 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt generate",
+    "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "prepare": "npm install @rollup/wasm-node && nuxt prepare"
+    "prepare": "nuxt prepare"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.7",
@@ -19,9 +19,6 @@
   "devDependencies": {
     "nuxt": "^3.15.4",
     "vite-svg-loader": "^5.1.0"
-  },
-  "resolutions": {
-    "rollup": "npm:@rollup/wasm-node"
   },
   "__npminstall_done": false,
   "engines": {
