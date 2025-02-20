@@ -6,6 +6,8 @@
     --text-color: #000;
     --text-white: #fff;
     --text-secondary: #888888;
+    --text-navbar: rgba(0, 0, 0, 0.8);
+    --text-navbar-hover: rgba(0, 0, 0, 1);
     --bg-hero: #000;
     --bg-primary: #FFFFFF;
     --bg-secondary: #F8F8F8;
@@ -67,6 +69,8 @@
     --header-bg: rgba(0, 0, 0, 0.8);
     --text-color: #fff;
     --text-secondary: #888;
+    --text-navbar: rgba(255, 255, 255, 0.8);
+    --text-navbar-hover: rgba(255, 255, 255, 1);
     --bg-primary: #000;
     --bg-secondary: #111;
     --border-primary: rgba(255, 255, 255, 0.1);
@@ -210,11 +214,11 @@ body.no-scroll {
   z-index: -1;
 }
 .navbar-link{
-  color: var(--text-secondary);
+  color: var(--text-navbar);
   transition: color 0.2s;
 }
 .navbar-link:hover, .navbar-link.active{
-  color: var(--text-color);
+  color: var(--text-navbar-hover);
 }
 
 /* Header 透明背景时的样式 */
@@ -606,7 +610,9 @@ body.no-scroll {
   .dropdown-menu button:hover {
     background-color: var(--btn-bg-default-hover);
   }
-  
+  .dropdown-menu button.active {
+    color: var(--text-color);
+  }
   .footer-btn {
     color: var(--text-color);
     transition: background-color 0.2s;
@@ -614,4 +620,120 @@ body.no-scroll {
   
   .footer-btn:hover {
     background-color: var(--btn-bg-default-hover);
+  }
+
+  /* 语言建议提示框样式 */
+  .language-suggestion-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .language-suggestion {
+    position: relative;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 6px -1px var(--box-shadow);
+    padding: 2rem;
+    max-width: 30rem;
+    width: 90%;
+    z-index: 51;
+    animation: modalFadeIn 0.3s ease-out;
+  }
+  
+  .language-suggestion-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 50;
+    animation: overlayFadeIn 0.3s ease-out;
+  }
+  
+  .language-suggestion-title {
+    color: var(--text-color);
+    font-size: 1.75rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .language-suggestion-text {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+    text-align: center;
+    opacity: 0.8;
+  }
+  
+  .language-suggestion-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-direction: column-reverse;
+  }
+  
+  .language-suggestion-reject {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    color: var(--text-color);
+    background: transparent;
+    border: 1px solid var(--border-primary);
+    transition: all 0.2s;
+    width: 100%;
+    font-weight: 500;
+  }
+  
+  .language-suggestion-accept {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    color: var(--text-white);
+    background: var(--btn-bg-primary);
+    transition: all 0.2s;
+    width: 100%;
+    font-weight: 500;
+  }
+  
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes overlayFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* 在大屏幕上恢复水平布局 */
+  @media (min-width: 640px) {
+    .language-suggestion-buttons {
+      flex-direction: row;
+    }
+    
+    .language-suggestion-reject,
+    .language-suggestion-accept {
+      width: auto;
+      min-width: 140px;
+    }
   }

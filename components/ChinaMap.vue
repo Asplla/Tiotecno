@@ -4,7 +4,7 @@
       <svg 
         xmlns="http://www.w3.org/2000/svg" 
         viewBox="0 0 774 569"
-        aria-label="Map of China" 
+        :aria-label="t('map.label')"
         class="china-map"
         ref="mapSvg"
       >
@@ -16,8 +16,8 @@
           class="province-path"
           :class="{
             'active': activeProvince?.i === province.i,
-            'has-products': province.p?.c,
-            'no-products': !province.p?.c
+            'has-products': hasProvinceData(province),
+            'no-products': !hasProvinceData(province)
           }"
           @mouseover="handleHover(province)"
           @mouseout="handleMouseLeave"
@@ -26,7 +26,7 @@
 
       <!-- 标记点和连接线 -->
       <div 
-        v-if="activeProvince && activeProvince.p?.c"
+        v-if="activeProvince && hasProvinceData(activeProvince)"
         class="marker-container"
         :style="getMarkerPosition(activeProvince.i)"
       >
@@ -36,34 +36,54 @@
 
       <!-- 提示框 -->
       <div 
-        v-if="activeProvince && activeProvince.p?.c"
+        v-if="activeProvince && hasProvinceData(activeProvince)"
         class="map-tooltip"
         :style="getTooltipPosition(activeProvince.i)"
       >
         <div class="tooltip-content">
-          <h3>{{ activeProvince.n.c }}</h3>
-          <p>{{ activeProvince.p.c }}</p>
+          <h3>{{ getProvinceContent(activeProvince, 'n') }}</h3>
+          <p>{{ getProvinceContent(activeProvince, 'p') }}</p>
         </div>
+      </div>
+
+      <!-- 数据来源标注 -->
+      <div class="absolute bottom-2 right-2 text-xs text-secondary opacity-60">
+        Map data from mapsvg.com
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useLanguage } from '~/composables/useLanguage'
 import { chinaMapData } from '~/config/china-map'
+
+const { t } = useI18n()
+const { currentLocale, locale } = useI18n()
+
+// 计算当前语言，如果当前语言没有内容则使用英文
+const currentLang = computed(() => {
+  const lang = locale.value
+  // 检查第一个省份是否有该语言的内容
+  const hasLang = chinaMapData.some(province => province.n[lang] && province.p[lang])
+  return hasLang ? lang : 'en'
+})
 
 interface ProvinceData {
   i: string
   d: string
   n: {
-    c: string
-    e: string
+    zh: string
+    en: string
+    es: string
     [key: string]: string
   }
   p: {
-    c: string
-    e: string
+    zh: string
+    en: string
+    es: string
     [key: string]: string
   }
 }
@@ -74,18 +94,73 @@ const activeProvinceIndex = ref(0)
 let intervalId: number | null = null
 
 // 将 provinces 定义为 ref，使其在模板中可用
-const provinces = ref(chinaMapData)
+const provinces = ref([...chinaMapData])
 
 // 检查省份是否有产品数据
 const hasProvinceData = (province: ProvinceData): boolean => {
-  return province.p.c.trim() !== ''
+  const lang = currentLang.value
+  // 如果当前语言没有数据，尝试使用英文
+  return Boolean(province?.p?.[lang] || (lang !== 'en' && province?.p?.en))
 }
 
-// 筛选出有产品数据的省份
-const provincesWithData = chinaMapData.filter(hasProvinceData)
+// 将 provincesWithData 也定义为 ref
+const provincesWithData = ref(chinaMapData.filter(hasProvinceData))
+
+// 获取省份显示内容
+const getProvinceContent = (province: ProvinceData, type: 'n' | 'p'): string => {
+  const lang = currentLang.value
+  return province[type][lang] || province[type]['en'] || ''
+}
+
+// 修改自动轮播逻辑
+const startCarousel = (): void => {
+  if (!process.client) return
+  
+  intervalId = window.setInterval(() => {
+    activeProvinceIndex.value = (activeProvinceIndex.value + 1) % provincesWithData.value.length
+    activeProvince.value = provincesWithData.value[activeProvinceIndex.value]
+  }, 3000)
+}
+
+// 更新省份数据的函数
+const updateProvinceData = () => {
+  provincesWithData.value = chinaMapData.filter(hasProvinceData)
+  
+  // 如果当前激活的省份在新语言下没有数据，则清除激活状态
+  const lang = currentLang.value
+  if (activeProvince.value && !hasProvinceData(activeProvince.value)) {
+    activeProvince.value = null
+  }
+  
+  // 重新开始轮播
+  if (intervalId) {
+    clearInterval(intervalId)
+    intervalId = null
+  }
+  
+  if (provincesWithData.value.length > 0) {
+    activeProvince.value = provincesWithData.value[0]
+    startCarousel()
+  }
+}
+
+// 监听语言变化
+watch(locale, (newLang) => {
+  if (!process.client) return
+  
+  // 强制更新 provinces 引用以触发重新渲染
+  provinces.value = [...chinaMapData]
+  
+  // 使用 nextTick 确保 DOM 更新后再更新数据
+  nextTick(() => {
+    updateProvinceData()
+  })
+}, { immediate: true })
 
 // 计算标记点位置
 const getMarkerPosition = (provinceId: string): Record<string, string> => {
+  if (!process.client) return { position: 'absolute' }
+  
   if (!mapSvg.value) return { position: 'absolute' }
   
   const path = mapSvg.value.querySelector(`path[title="${provinceId}"]`) as SVGPathElement
@@ -150,37 +225,37 @@ const getTooltipPosition = (provinceId: string): Record<string, string> => {
 // 处理鼠标悬停
 const handleHover = (province: ProvinceData): void => {
   if (!hasProvinceData(province)) return
-  activeProvince.value = province
   
   // 悬停时暂停轮播
   if (intervalId) {
     clearInterval(intervalId)
     intervalId = null
   }
+  
+  activeProvince.value = province
 }
 
 // 处理鼠标离开
 const handleMouseLeave = (): void => {
   activeProvince.value = null
+  
   // 鼠标离开时恢复轮播
-  if (!intervalId && provincesWithData.length > 0) {
-    startCarousel()
+  if (!intervalId && provincesWithData.value.length > 0) {
+    nextTick(() => {
+      startCarousel()
+    })
   }
-}
-
-// 自动轮播
-const startCarousel = (): void => {
-  intervalId = window.setInterval(() => {
-    activeProvinceIndex.value = (activeProvinceIndex.value + 1) % provincesWithData.length
-    activeProvince.value = provincesWithData[activeProvinceIndex.value]
-  }, 3000)
 }
 
 onMounted(() => {
-  if (provincesWithData.length > 0) {
-    activeProvince.value = provincesWithData[0]
-    startCarousel()
-  }
+  if (!process.client) return
+  
+  nextTick(() => {
+    if (provincesWithData.value.length > 0) {
+      activeProvince.value = provincesWithData.value[0]
+      startCarousel()
+    }
+  })
 })
 
 onUnmounted(() => {

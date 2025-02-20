@@ -15,7 +15,7 @@
               'active': activeSection === item.href.substring(1)
             }"
             @click="scrollToSection($event, item.href)">
-            {{ item.text }}
+            {{ t(item.text) }}
           </a>
         </nav>
 
@@ -46,7 +46,7 @@
           <nav class="container mx-auto px-6 py-4 flex flex-col space-y-4 transition-all duration-400 transform-gpu overflow-y-auto scrollbar-hidden">
             <a v-for="item in menuItems" :key="item.href" :href="item.href"
               class="text-sm text-primary transition-colors py-2" @click="scrollToSection($event, item.href)">
-              {{ item.text }}
+              {{ t(item.text) }}
             </a>
           </nav>
         </div>
@@ -58,7 +58,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import LogoIcon from '~/assets/img/logo.svg'
+import { useI18n } from 'vue-i18n'
 import { menuItems } from '~/config/menu'
+
+const { t } = useI18n()
 
 const isMenuOpen = ref(false)
 const isScrolled = ref(false)

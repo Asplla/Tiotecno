@@ -1,18 +1,18 @@
 export const menuItems = [
   {
-    text: '首页',
+    text: 'menu.home',
     href: '#home'
   },
   {
-    text: '服务',
+    text: 'menu.services',
     href: '#services'
   },
   {
-    text: '关于我们',
+    text: 'menu.about',
     href: '#about'
   },
   {
-    text: '联系我们',
+    text: 'menu.contact',
     href: '#contact'
   }
 ] 

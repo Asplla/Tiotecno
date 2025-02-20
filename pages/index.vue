@@ -1,6 +1,6 @@
 <template>
   <!-- Hero Section-->
-  <section id="home" class="hero relative flex items-center justify-center bg-primary overflow-hidden">
+  <section id="home" class="hero relative flex items-center justify-center bg-primary">
     <div class="hero-bg absolute w-full h-full top-0 left-0 right-0 bottom-0">
       <video autoplay muted loop playsinline preload="auto" src="/src/video/glass-animation-5.mp4"></video>
     </div>
@@ -64,36 +64,33 @@
         <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">为什么亲自去中国实际上可以省钱？</h2>
       </div>
       <!-- Content -->
-      <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
-        <div class="lg:col-span-2 space-y-6">
-          <!-- Card 1 - Price Advantage -->
-          <div class="card rounded-xl p-4 md:p-6">
-            <h3 class="text-xl font-bold text-primary mb-3">竞争性定价</h3>
-            <p class="text-secondary">获取竞争性定价和成本效益制造解决方案</p>
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+          <div class="lg:col-span-2 space-y-6">
+            <!-- Card 1 - Price Advantage -->
+            <div class="card rounded-xl p-4 md:p-6">
+              <h3 class="text-xl font-bold text-primary mb-3">竞争性定价</h3>
+              <p class="text-secondary">获取竞争性定价和成本效益制造解决方案</p>
+            </div>
+            <!-- Card 2 - Guanxi -->
+            <div class="card rounded-xl p-4 md:p-6">
+              <h3 class="text-xl font-bold text-primary mb-3">强关系</h3>
+              <p class="text-secondary">与可靠制造商和供应商建立关系</p>
+            </div>
+            <!-- Card 3 - Mutual Value -->
+            <div class="card rounded-xl p-4 md:p-6">
+              <h3 class="text-xl font-bold text-primary mb-3">质量保证</h3>
+              <p class="text-secondary">严格的质量控制和检验过程</p>
+            </div>
+            <!-- Card 4 - Time Efficiency -->
+            <div class="card rounded-xl p-4 md:p-6">
+              <h3 class="text-xl font-bold text-primary mb-3">时间效率</h3>
+              <p class="text-secondary">快速周转时间和高效的生产过程</p>
+            </div>
           </div>
-          <!-- Card 2 - Guanxi -->
-          <div class="card rounded-xl p-4 md:p-6">
-            <h3 class="text-xl font-bold text-primary mb-3">强关系</h3>
-            <p class="text-secondary">与可靠制造商和供应商建立关系</p>
+          <div class="lg:col-span-3 w-full h-full flex items-center">
+            <ChinaMap />
           </div>
-          <!-- Card 3 - Mutual Value -->
-          <div class="card rounded-xl p-4 md:p-6">
-            <h3 class="text-xl font-bold text-primary mb-3">质量保证</h3>
-            <p class="text-secondary">严格的质量控制和检验过程</p>
-          </div>
-          <!-- Card 4 - Time Efficiency -->
-          <div class="card rounded-xl p-4 md:p-6">
-            <h3 class="text-xl font-bold text-primary mb-3">时间效率</h3>
-            <p class="text-secondary">快速周转时间和高效的生产过程</p>
-          </div>
-          <!-- Card 4 - Time Efficiency -->
-          <div class="card rounded-xl p-4 md:p-6">
-            <h3 class="text-xl font-bold text-primary mb-3">时间效率</h3>
-            <p class="text-secondary">快速周转时间和高效的生产过程</p>
-          </div>
-        </div>
-        <div class="lg:col-span-3 w-full h-full flex items-center">
-          <ChinaMap />
         </div>
       </div>
     </div>
@@ -150,7 +147,7 @@
         <!-- 观光旅游和零食卡片 -->
         <div class="card p-6 md:p-8 rounded-2xl">
           <div class="flex items-start gap-4">
-            <div class="flex-shrink-0" data-v-inspector="src/views/Home.vue:221:15">
+            <div class="flex-shrink-0">
               <MapIcon class="w-10 h-10 text-primary" />
             </div>
             <div>
@@ -199,16 +196,18 @@
       </div>
     </div>
   </section>
-  <!-- Contact Section -->
+  <!-- Contact Section-->
   <section id="contact" class="contact py-20 bg-secondary">
     <div class="container mx-auto px-6">
-      <!-- Title -->
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">联系我们</h2>
+      <!-- Section Title -->
+      <div class="text-center mb-10 md:mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">联系我们</h2>
+      </div>
       <!-- Content -->
       <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-        <div class="grid gap-y-8 h-full">
+        <div class="space-y-8 h-full flex flex-col justify-between">
           <!-- WhatsApp -->
-          <div class="card rounded-2xl p-7 hover:bg-primary/50 w-full">
+          <div class="card rounded-2xl p-7 hover:bg-primary/50">
             <div class="flex items-start gap-4">
               <WhatsappIcon class="w-12 h-12 text-green-500" />
               <div>
@@ -219,7 +218,7 @@
             </div>
           </div>
           <!-- Email -->
-          <div class="card rounded-2xl p-7 hover:bg-primary/50 w-full">
+          <div class="card rounded-2xl p-7 hover:bg-primary/50">
             <div class="flex items-start gap-4">
               <MailIcon class="w-12 h-12 text-blue-500" />
               <div>
@@ -230,7 +229,6 @@
             </div>
           </div>
         </div>
-        <!-- Contact Form -->
         <SendEmail />
       </div>
     </div>

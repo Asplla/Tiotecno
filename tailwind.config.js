@@ -1,11 +1,10 @@
-import type { Config } from 'tailwindcss'
-
-export default <Config>{
+module.exports = {
   content: [
     './components/**/*.{js,vue,ts}',
     './layouts/**/*.vue',
     './pages/**/*.vue',
     './plugins/**/*.{js,ts}',
+    './nuxt.config.{js,ts}',
     './app.vue'
   ],
   safelist: [
@@ -25,23 +24,5 @@ export default <Config>{
     'space-y-6',
     'space-y-7',
     'space-y-8',
-  ],
-  theme: {
-    extend: {
-      animation: {
-        'spin': 'spin 1s linear infinite',
-      },
-      keyframes: {
-        spin: {
-          from: {
-            transform: 'rotate(0deg)',
-          },
-          to: {
-            transform: 'rotate(360deg)',
-          },
-        },
-      },
-    },
-  },
-  plugins: [],
+  ]
 } 
