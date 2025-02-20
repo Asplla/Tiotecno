@@ -208,7 +208,7 @@
       </div>
       <!-- Content -->
       <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-        <div class="space-y-8 h-full flex flex-col justify-between">
+        <div class="grid gap-y-8 h-full flex-col justify-between">
           <!-- WhatsApp -->
           <div class="card rounded-2xl p-7 hover:bg-primary/50">
             <div class="flex items-start gap-4">

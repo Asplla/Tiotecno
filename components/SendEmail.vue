@@ -1,6 +1,6 @@
 <template>
   <div class="h-full flex flex-col">
-    <div class="flex-1 space-y-6">
+    <div class="flex-1 grid gap-y-6">
       <input 
         type="text"
         class="w-full p-3 md:p-4 rounded-lg text-primary border border-[var(--border-primary)] hover:border-[var(--border-hover)] focus:border-[var(--border-hover)] focus:outline-none focus:ring-1 focus:ring-[var(--border-hover)] transition-all"

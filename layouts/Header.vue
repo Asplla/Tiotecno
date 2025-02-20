@@ -9,7 +9,7 @@
         </a>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center space-x-8">
+        <nav class="hidden md:flex items-center gap-8">
           <a v-for="item in menuItems" :key="item.href" :href="item.href" class="text-sm navbar-link transition-colors"
             :class="{
               'active': activeSection === item.href.substring(1)
