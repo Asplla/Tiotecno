@@ -288,5 +288,9 @@ useSeo({
 })
 </script>
 <style scoped>
+.particle-hero {
+  background: linear-gradient(180deg, #000000 0%, #0A0A0A 100%);
+}
+
 /* 我们现在使用 Tailwind 的类，不需要额外的 CSS */
 </style> 
