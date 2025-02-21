@@ -65,7 +65,7 @@
       <!-- Content -->
       <div class="max-w-8xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
-          <div class="lg:col-span-2 space-y-6">
+          <div class="lg:col-span-2 grid grid-cols-1 gap-y-6">
             <!-- Card 1 - Price Advantage -->
             <SpotlightCard class="card rounded-xl p-4 md:p-6" :spotlight-color="'var(--card-spotlight-color)'">
               <h3 class="text-xl font-bold text-primary mb-3">{{ t('map.items.1.title') }}</h3>
