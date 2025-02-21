@@ -11,6 +11,7 @@
     --bg-hero: #000;
     --bg-primary: #FFFFFF;
     --bg-secondary: #F8F8F8;
+    --bg-dropdown: #FFFFFF;
     --bg-dark: #000000;
     --gradient-text: linear-gradient(137.59deg, rgba(255, 255, 255, 0.5) 23.26%, rgba(255, 255, 255, 1) 75.52%);
     --border-primary: rgba(0, 0, 0, 0.1);
@@ -84,6 +85,7 @@
     --text-navbar-hover: rgba(255, 255, 255, 1);
     --bg-primary: #000;
     --bg-secondary: #111;
+    --bg-dropdown: #191919;
     --border-primary: rgba(255, 255, 255, 0.1);
     --border-hover: rgba(255, 255, 255, 0.8);
     --box-shadow: rgba(0, 0, 0, 0.3);
@@ -146,6 +148,7 @@
     --map-tooltip-shadow: var(--card-shadow);
     --map-tooltip-title: var(--text-color);
     --map-tooltip-text: var(--text-secondary);
+    
 }
 
 /* 可以在这里添加其他自定义样式 */
@@ -177,7 +180,7 @@ body.no-scroll {
   -ms-touch-action: none;
 }
 .number-font{
-  font-family: "DM Sans", sans-serif;
+  font-family: JDZH-Regular;
 }
 /* 背景颜色 */
 .bg-primary{
@@ -627,7 +630,7 @@ body.no-scroll {
   /* 下拉菜单统一样式 */
   .dropdown-menu {
     position: absolute;
-    background-color: var(--bg-primary);
+    background-color: var(--bg-dropdown);
     border-radius: 0.5rem;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     border: 1px solid var(--border-primary);
@@ -639,10 +642,10 @@ body.no-scroll {
   .dropdown-menu::before {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: -15px;
     left: 0;
     right: 0;
-    height: 5px;
+    height: 15px;
   }
   .dropdown-btn {
     background-color: var(--btn-bg-default);
@@ -679,11 +682,11 @@ body.no-scroll {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--text-color);
+    color: var(--text-secondary);
     transition: background-color 0.2s;
   }
-  
   .dropdown-menu button:hover {
+    color: var(--text-color);
     background-color: var(--btn-bg-default-hover);
   }
   .dropdown-menu button.active {

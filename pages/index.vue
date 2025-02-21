@@ -176,19 +176,19 @@
             <div class="grid grid-cols-3 md:flex md:flex-row gap-4 md:gap-24">
               <div class="text-center md:text-left">
                 <div class="text-3xl md:text-5xl font-bold text-primary number-font mb-1 md:mb-2">
-                  <CountUp :to="10" :from="0" :duration="2" :delay="0.5" direction="up" separator="," :start-when="true" />+
+                  <CountUp :to="10" :from="0" :duration="2" :delay="0.5" direction="up" :start-when="true" />+
                 </div>
                 <div class="text-xs md:text-base text-secondary">{{ t('about.stats.years') }}</div>
               </div>
               <div class="text-center md:text-left">
                 <div class="text-3xl md:text-5xl font-bold text-primary number-font mb-1 md:mb-2">
-                  <CountUp :to="500" :from="0" :duration="2" :delay="0.5" direction="up" separator="," :start-when="true" />+
+                  <CountUp :to="500" :from="0" :duration="2" :delay="0.5" direction="up" :start-when="true" />+
                 </div>
                 <div class="text-xs md:text-base text-secondary">{{ t('about.stats.clients') }}</div>
               </div>
               <div class="text-center md:text-left">
                 <div class="text-3xl md:text-5xl font-bold text-primary number-font mb-1 md:mb-2">
-                  <CountUp :to="1000" :from="0" :duration="2" :delay="0.5" direction="up" separator="," :start-when="true" />+
+                  <CountUp :to="1000" :from="0" :duration="2" :delay="0.5" direction="up" :start-when="true" />+
                 </div>
                 <div class="text-xs md:text-base text-secondary">{{ t('about.stats.factories') }}</div>
               </div>

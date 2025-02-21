@@ -49,15 +49,15 @@
                         
                         <div 
                             v-show="isLangOpen"
-                            class="dropdown-menu bottom-[calc(100%+1px)] right-0"
+                            class="dropdown-menu w-36 mb-2 bottom-[calc(100%+1px)] right-0"
                         >
-                            <button
+                            <button class="dropdown-item text-sm px-4 py-2"
                                 v-for="lang in availableLocales"
                                 :key="lang.code"
                                 @click="changeLang(lang.code)"
                                 :class="{ 'active': currentLocale?.code === lang.code }"
                             >
-                                <span class="text-sm">{{ lang.label }}</span>
+                                {{ lang.label }}
                             </button>
                         </div>
                     </div>
