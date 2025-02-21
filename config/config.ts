@@ -69,7 +69,7 @@ const config: SiteConfig = {
   },
   language: {
     // 设置英语为默认语言
-    default: 'zh',
+    default: 'en',
     // 如果检测到的语言不支持，回退到英语
     fallback: 'en',
     // 允许用户切换语言
