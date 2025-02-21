@@ -29,7 +29,7 @@
                     <p class="text-sm text-center md:text-left text-secondary">{{ t('footer.copyright') }} © {{ new Date().getFullYear() }} Tiotecno. {{ t('footer.rights') }}</p>
                 </div>
                 <!-- Language & Theme Switcher -->
-                <div class="flex items-center gap-x-4 -mt-2">
+                <div class="flex items-center mx-auto md:mx-0 gap-x-4 -mt-2">
                     <ClientOnly>
                     <!-- 语言切换下拉菜单 -->
                     <div v-if="canSwitchLanguage"
@@ -66,7 +66,7 @@
                     <button 
                         v-if="canSwitchTheme"
                         @click="toggleTheme"
-                        class="p-2 rounded-md footer-btn"
+                        class="p-2 rounded-md footer-btn btn-default"
                         :title="themeLabels[currentTheme]"
                     >
                         <ThemeSystemIcon v-if="currentTheme === 'system'" class="w-5 h-5" />

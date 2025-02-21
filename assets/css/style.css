@@ -92,9 +92,9 @@
     --btn-border-hover: #e5e5e5;
     --btn-text-color: #000000;
     --btn-text-accept-color: #000000;
-    --btn-bg-default: transparent;
+    --btn-bg-default: rgba(255,255,255,0.1);
     --btn-bg-primary: #FFFFFF;
-    --btn-bg-default-hover: rgb(31, 31, 31);
+    --btn-bg-default-hover: rgba(255,255,255,0.2);
     --btn-bg-primary-hover: rgba(255, 255, 255, 0.8);
     --btn-border-default: rgba(255,255,255,0.14);
     --btn-border-primary: transparent;
@@ -174,7 +174,7 @@ body.no-scroll {
   touch-action: none;
   -ms-touch-action: none;
 }
-
+/* 背景颜色 */
 .bg-primary{
     background-color: var(--bg-primary);
 }
@@ -194,8 +194,9 @@ body.no-scroll {
     background: var(--btn-bg-primary);
     border-color: var(--btn-border-primary);
     color: var(--btn-text-primary);
+    cursor: pointer;
 }
-.btn-primary:hover{
+.btn-primary:hover, .btn-primary:active{
     background: var(--btn-bg-primary-hover);
     border-color: var(--btn-border-primary-hover);
 }
@@ -203,18 +204,19 @@ body.no-scroll {
     background: var(--btn-bg-default);
     border: 1px solid var(--btn-border-default);
     color: var(--btn-text-default);
+    cursor: pointer;
 }
-.btn-default:hover{
+.btn-default:hover, .btn-default:active{
     background: var(--btn-bg-default-hover);
     border-color: var(--btn-border-default-hover);
 }
-
 .clip-visible {
   clip-path: polygon(-10% -10%, 110% 0%, 110% 110%, -10% 110%);
 }
 .clip-invisible {
   clip-path: polygon(-10% -10%, 110% -10%, 110% -10%, -10% -10%);
 }
+/* 全局 Header */
 .global-header {
     position: fixed;
     top: 0;
