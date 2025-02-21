@@ -6,7 +6,7 @@
     </div>
     <!-- 内容区域 -->
     <div class="relative z-10 text-center">
-      <h1 class="hero-title text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
+      <h1 class="hero-title text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
         <div>{{ t('hero.title1') }}</div>
         <div>{{ t('hero.title2') }}</div>
       </h1>
