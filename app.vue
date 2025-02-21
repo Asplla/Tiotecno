@@ -53,10 +53,8 @@ const { initTheme, cleanup: cleanupTheme } = useTheme()
 const { currentLocale } = useLanguage()
 const { hideInitOverlay } = useInitOverlay()
 
-// 在 setup 时就初始化主题和语言
 if (process.client) {
   initTheme()
-  locale.value = config.language.default
 }
 
 onMounted(() => {

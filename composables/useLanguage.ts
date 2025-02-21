@@ -3,6 +3,8 @@ import { useI18n } from 'vue-i18n'
 import { useCookie } from '#app'
 import config from '~/config/config'
 import { useInitOverlay } from './useInitOverlay'
+import { useHead } from '#imports'
+import { languageLabels } from '~/constants/languages'
 
 // 自动导入所有语言包
 const locales = import.meta.glob('~/locales/*.ts', { eager: true })
@@ -92,7 +94,7 @@ const getLocation = async () => {
 }
 
 export const useLanguage = () => {
-  const { locale, availableLocales: i18nLocales } = useI18n()
+  const { locale, availableLocales: i18nLocales, t } = useI18n()
   const localeCookie = useCookie('locale', {
     maxAge: 365 * 24 * 60 * 60,
     path: '/',
@@ -242,6 +244,11 @@ export const useLanguage = () => {
     currentCode.value = code
     locale.value = code
     localeCookie.value = code
+
+    // 更新页面标题
+    useHead({
+      title: `${t('meta.title.siteName')}${t('meta.title.separator')}${t('meta.title.siteDesc')}`
+    })
   }
 
   // 获取国家名称

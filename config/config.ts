@@ -21,6 +21,8 @@ export interface SiteConfig {
     fallback: string
     // 是否允许用户切换语言
     allowSwitch: boolean
+    // 可用的语言列表
+    available: string[]
   }
   theme: {
     // 默认主题 ('light', 'dark', 'system')
@@ -73,7 +75,9 @@ const config: SiteConfig = {
     // 如果检测到的语言不支持，回退到英语
     fallback: 'en',
     // 允许用户切换语言
-    allowSwitch: true
+    allowSwitch: true,
+    // 可用的语言列表
+    available: ['en', 'zh', 'es']
   },
   theme: {
     // 强制使用暗色主题
