@@ -77,11 +77,11 @@ const config: SiteConfig = {
   },
   theme: {
     // 强制使用暗色主题
-    default: 'system',
+    default: 'dark',
     // 禁止用户切换主题
-    allowSwitch: true,
+    allowSwitch: false,
     // 禁止跟随系统主题设置
-    followSystem: true
+    followSystem: false
   }
 }
 
