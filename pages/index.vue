@@ -28,31 +28,30 @@
       <!-- Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         <!-- 工厂参观卡片 -->
-        <div class="card p-6 md:p-8">
-          <div class="mb-4">
-            <FactoryIcon class="w-12 h-12 text-primary" />
-          </div>
-          <h3 class="card-title">{{ t('services.items.1.title') }}</h3>
-          <p class="card-description">{{ t('services.items.1.description') }}</p>
-        </div>
-
+        <SpotlightCard class="card p-6 md:p-8" :spotlight-color="'var(--card-spotlight-color)'">
+            <div class="mb-4">
+              <FactoryIcon class="w-12 h-12 text-primary" />
+            </div>
+            <h3 class="card-title">{{ t('services.items.1.title') }}</h3>
+            <p class="card-description">{{ t('services.items.1.description') }}</p>
+        </SpotlightCard>
         <!-- 产品采购卡片 -->
-        <div class="card p-6 md:p-8">
+        <SpotlightCard class="card p-6 md:p-8" :spotlight-color="'var(--card-spotlight-color)'">
           <div class="mb-4">
             <ShopCartIcon class="w-12 h-12 text-primary" />
           </div>
           <h3 class="card-title">{{ t('services.items.2.title') }}</h3>
           <p class="card-description">{{ t('services.items.2.description') }}</p>
-        </div>
+        </SpotlightCard>
 
         <!-- 价格谈判卡片 -->
-        <div class="card p-6 md:p-8">
+        <SpotlightCard class="card p-6 md:p-8" :spotlight-color="'var(--card-spotlight-color)'">
           <div class="mb-4">
             <TransferIcon class="w-12 h-12 text-primary" />
           </div>
           <h3 class="card-title">{{ t('services.items.3.title') }}</h3>
           <p class="card-description">{{ t('services.items.3.description') }}</p>
-        </div>
+        </SpotlightCard>
       </div>
     </div>
   </section>
@@ -68,25 +67,25 @@
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
           <div class="lg:col-span-2 space-y-6">
             <!-- Card 1 - Price Advantage -->
-            <div class="card rounded-xl p-4 md:p-6">
+            <SpotlightCard class="card rounded-xl p-4 md:p-6" :spotlight-color="'var(--card-spotlight-color)'">
               <h3 class="text-xl font-bold text-primary mb-3">{{ t('map.items.1.title') }}</h3>
               <p class="text-secondary">{{ t('map.items.1.description') }}</p>
-            </div>
+            </SpotlightCard>
             <!-- Card 2 - Guanxi -->
-            <div class="card rounded-xl p-4 md:p-6">
+            <SpotlightCard class="card rounded-xl p-4 md:p-6" :spotlight-color="'var(--card-spotlight-color)'">
               <h3 class="text-xl font-bold text-primary mb-3">{{ t('map.items.2.title') }}</h3>
               <p class="text-secondary">{{ t('map.items.2.description') }}</p>
-            </div>
+            </SpotlightCard>
             <!-- Card 3 - Mutual Value -->
-            <div class="card rounded-xl p-4 md:p-6">
+            <SpotlightCard class="card rounded-xl p-4 md:p-6" :spotlight-color="'var(--card-spotlight-color)'">
               <h3 class="text-xl font-bold text-primary mb-3">{{ t('map.items.3.title') }}</h3>
               <p class="text-secondary">{{ t('map.items.3.description') }}</p>
-            </div>
+            </SpotlightCard>
             <!-- Card 4 - Time Efficiency -->
-            <div class="card rounded-xl p-4 md:p-6">
+            <SpotlightCard class="card rounded-xl p-4 md:p-6" :spotlight-color="'var(--card-spotlight-color)'">
               <h3 class="text-xl font-bold text-primary mb-3">{{ t('map.items.4.title') }}</h3>
               <p class="text-secondary">{{ t('map.items.4.description') }}</p>
-            </div>
+            </SpotlightCard>
           </div>
           <div class="lg:col-span-3 w-full h-full flex items-center">
             <ChinaMap />
@@ -106,7 +105,7 @@
       <!-- Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
         <!-- 英语-中文翻译卡片 -->
-        <div class="card p-6 md:p-8 rounded-2xl">
+        <SpotlightCard class="card p-6 md:p-8 rounded-2xl" :spotlight-color="'var(--card-spotlight-color)'">
           <div class="flex items-start gap-4">
             <div class="flex-shrink-0">
               <LanguageIcon class="w-10 h-10 text-primary" />
@@ -116,10 +115,10 @@
               <p class="text-secondary">{{ t('weoffer.items.1.description') }}</p>
             </div>
           </div>
-        </div>
+        </SpotlightCard>
 
         <!-- 工厂参观交通卡片 -->
-        <div class="card p-6 md:p-8 rounded-2xl">
+        <SpotlightCard class="card p-6 md:p-8 rounded-2xl" :spotlight-color="'var(--card-spotlight-color)'">
           <div class="flex items-start gap-4">
             <div class="flex-shrink-0">
               <BusIcon class="w-10 h-10 text-primary" />
@@ -129,10 +128,10 @@
               <p class="text-secondary">{{ t('weoffer.items.2.description') }}</p>
             </div>
           </div>
-        </div>
+        </SpotlightCard>
 
         <!-- 舒适的住宿卡片 -->
-        <div class="card p-6 md:p-8 rounded-2xl">
+        <SpotlightCard class="card p-6 md:p-8 rounded-2xl" :spotlight-color="'var(--card-spotlight-color)'">
           <div class="flex items-start gap-4">
             <div class="flex-shrink-0">
               <BedIcon class="w-10 h-10 text-primary" />
@@ -142,10 +141,10 @@
               <p class="text-secondary">{{ t('weoffer.items.3.description') }}</p>
             </div>
           </div>
-        </div>
+        </SpotlightCard>
 
         <!-- 观光旅游和零食卡片 -->
-        <div class="card p-6 md:p-8 rounded-2xl">
+        <SpotlightCard class="card p-6 md:p-8 rounded-2xl" :spotlight-color="'var(--card-spotlight-color)'">
           <div class="flex items-start gap-4">
             <div class="flex-shrink-0">
               <MapIcon class="w-10 h-10 text-primary" />
@@ -155,7 +154,7 @@
               <p class="text-secondary">{{ t('weoffer.items.4.description') }}</p>
             </div>
           </div>
-        </div>
+        </SpotlightCard>
       </div>
     </div>
   </section>
@@ -176,15 +175,21 @@
             <h3 class="text-2xl md:text-3xl font-bold text-primary mb-6 md:mb-8 text-center md:text-left">{{ t('about.subtitle') }}</h3>
             <div class="grid grid-cols-3 md:flex md:flex-row gap-4 md:gap-24">
               <div class="text-center md:text-left">
-                <div class="text-3xl md:text-5xl font-bold text-primary mb-1 md:mb-2">10+</div>
+                <div class="text-3xl md:text-5xl font-bold text-primary number-font mb-1 md:mb-2">
+                  <CountUp :to="10" :from="0" :duration="2" :delay="0.5" direction="up" separator="," :start-when="true" />+
+                </div>
                 <div class="text-xs md:text-base text-secondary">{{ t('about.stats.years') }}</div>
               </div>
               <div class="text-center md:text-left">
-                <div class="text-3xl md:text-5xl font-bold text-primary mb-1 md:mb-2">500+</div>
+                <div class="text-3xl md:text-5xl font-bold text-primary number-font mb-1 md:mb-2">
+                  <CountUp :to="500" :from="0" :duration="2" :delay="0.5" direction="up" separator="," :start-when="true" />+
+                </div>
                 <div class="text-xs md:text-base text-secondary">{{ t('about.stats.clients') }}</div>
               </div>
               <div class="text-center md:text-left">
-                <div class="text-3xl md:text-5xl font-bold text-primary mb-1 md:mb-2">1000+</div>
+                <div class="text-3xl md:text-5xl font-bold text-primary number-font mb-1 md:mb-2">
+                  <CountUp :to="1000" :from="0" :duration="2" :delay="0.5" direction="up" separator="," :start-when="true" />+
+                </div>
                 <div class="text-xs md:text-base text-secondary">{{ t('about.stats.factories') }}</div>
               </div>
             </div>
@@ -205,7 +210,7 @@
       <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
         <div class="space-y-8 h-full flex flex-col justify-between">
           <!-- WhatsApp -->
-          <div class="card rounded-2xl p-7 hover:bg-primary/50">
+          <SpotlightCard class="card rounded-2xl p-7 hover:bg-primary/50" :spotlight-color="'var(--card-spotlight-color)'">
             <div class="flex items-start gap-4">
               <WhatsappIcon class="w-12 h-12 text-green-500" />
               <div>
@@ -214,9 +219,9 @@
                 <p class="text-primary text-lg md:text-xl">{{ t('contact.whatsapp.phone') }}</p>
               </div>
             </div>
-          </div>
+          </SpotlightCard>
           <!-- Email -->
-          <div class="card rounded-2xl p-7 hover:bg-primary/50">
+          <SpotlightCard class="card rounded-2xl p-7 hover:bg-primary/50" :spotlight-color="'var(--card-spotlight-color)'">
             <div class="flex items-start gap-4">
               <MailIcon class="w-12 h-12 text-blue-500" />
               <div>
@@ -229,7 +234,7 @@
                 </p>
               </div>
             </div>
-          </div>
+          </SpotlightCard>
         </div>
         <SendEmail />
       </div>
@@ -252,6 +257,8 @@ import BusIcon from '~/assets/icon/bus.svg'
 import BedIcon from '~/assets/icon/bed.svg'
 import MapIcon from '~/assets/icon/map.svg'
 import SendEmail from '~/components/SendEmail.vue'
+import SpotlightCard from '~/components/SpotlightCard.vue'
+import CountUp from '~/components/CountUp.vue'
 import { onMounted } from 'vue'
 import { useSeo } from '~/composables/useSeo'
 

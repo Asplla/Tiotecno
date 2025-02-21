@@ -35,6 +35,7 @@
     --card-bg: #FFFFFF;
     --card-border: rgba(0, 0, 0, 0.1);
     --card-shadow: rgba(0, 0, 0, 0.08);
+    --card-spotlight-color: rgba(0, 0, 0, 0.2);
     --input-bg: #FFFFFF;
     --input-text: #000000;
     --input-placeholder: #888888;
@@ -105,6 +106,7 @@
     --card-bg: #111111;
     --card-border: rgba(255, 255, 255, 0.1);
     --card-shadow: rgba(0, 0, 0, 0.5);
+    --card-spotlight-color: rgba(255, 255, 255, 0.2);
     --input-bg: #111111;
     --input-text: #FFFFFF;
     --input-placeholder: #666666;
@@ -173,6 +175,9 @@ body.no-scroll {
   height: 100vh;
   touch-action: none;
   -ms-touch-action: none;
+}
+.number-font{
+  font-family: "DM Sans", sans-serif;
 }
 /* 背景颜色 */
 .bg-primary{
@@ -448,6 +453,37 @@ body.no-scroll {
     color: var(--text-secondary);
     line-height: 1.6;
   }
+  /* 卡片高亮效果 */
+  .card-spotlight {
+    position: relative;
+    border-radius: 1.5rem;
+    border: 1px solid #222;
+    background-color: #111;
+    padding: 2rem;
+    overflow: hidden;
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+    --spotlight-color: var(--card-spotlight-color);
+  }
+  
+  .card-spotlight::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--card-spotlight-color), transparent 80%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  
+  .card-spotlight:hover::before,
+  .card-spotlight:focus-within::before {
+    opacity: 0.6;
+  }
+  
   /* 地图样式 */
   .map-container {
     position: relative;
