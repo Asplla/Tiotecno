@@ -141,16 +141,12 @@ const getI18nValue = (value: string | I18nObject): string => {
 // 预加载所有语言包
 const loadLanguageModule = async (code: string) => {
   try {
-    // 从已导入的语言包中获取
-    const langPath = Object.keys(locales).find(path => 
+    // 使用 Object.entries 直接获取语言包
+    const [, module] = Object.entries(locales).find(([path]) => 
       path.toLowerCase().includes(code.toLowerCase())
-    )
+    ) || []
     
-    if (!langPath) {
-      throw new Error(`Language module not found for ${code}`)
-    }
-    
-    const langModule = (locales[langPath] as LanguageModule).default
+    const langModule = (module as LanguageModule)?.default
     if (!langModule?.language) {
       throw new Error(`Invalid language module for ${code}`)
     }
@@ -158,14 +154,14 @@ const loadLanguageModule = async (code: string) => {
   } catch (error) {
     console.error(`Failed to load language module ${code}:`, error)
     // 回退到默认语言
-    const defaultPath = Object.keys(locales).find(path => 
+    const [, defaultModule] = Object.entries(locales).find(([path]) => 
       path.toLowerCase().includes(config.language.default.toLowerCase())
-    )
-    const defaultModule = defaultPath ? (locales[defaultPath] as LanguageModule).default : null
-    if (!defaultModule?.language) {
+    ) || []
+    const defaultLangModule = (defaultModule as LanguageModule)?.default
+    if (!defaultLangModule?.language) {
       throw new Error('Default language module not found')
     }
-    return defaultModule.language
+    return defaultLangModule.language
   }
 }
 
