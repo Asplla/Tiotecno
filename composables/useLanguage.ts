@@ -342,7 +342,8 @@ export const useLanguage = () => {
         const currentLangName = getI18nValue(currentLangMessages.name)
         console.log('当前语言包名称', currentLangName);
         console.log('已加载当前语言包')
-
+        console.log(getI18nValue(langMessages.suggestion.title))
+        console.log(getI18nValue(langMessages.suggestion.text))
         suggestionMessages.value = {
           title: getI18nValue(langMessages.suggestion.title),
           text: getI18nValue(langMessages.suggestion.text)
