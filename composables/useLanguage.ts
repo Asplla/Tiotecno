@@ -325,10 +325,11 @@ export const useLanguage = () => {
         const [, langModule] = Object.entries(locales).find(([path]) => 
           path.toLowerCase().includes(detectedLang.toLowerCase())
         ) || []
-        
+
         const langMessages = (langModule as any)?.default?.language
         console.log('已加载建议语言包', langMessages)
         const langName = langMessages.name.loc.source
+        console.log('建议语言包名称', langMessages.name.loc.source);
         console.log('已加载建议语言包')
 
         // 获取当前语言的名称
@@ -339,6 +340,7 @@ export const useLanguage = () => {
         const currentLangMessages = (currentLangModule as any)?.default?.language
         console.log('已加载当前语言包', currentLangMessages)
         const currentLangName = currentLangMessages.name.loc.source
+        console.log('当前语言包名称', currentLangMessages.name.loc.source);
         console.log('已加载当前语言包')
 
         suggestionMessages.value = {
