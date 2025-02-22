@@ -145,33 +145,21 @@ const getLocation = async () => {
 
 // 辅助函数：从 i18n 对象或字符串中获取实际值
 const getI18nValue = (value: string | I18nObject): string => {
-  // 如果是 undefined 或 null，返回空字符串
-  if (!value) return ''
-
-  // 如果是字符串，直接返回
   if (typeof value === 'string') return value
   
-  // 如果是对象，尝试获取文本
-  const obj = value as any
-
-  // 尝试获取常见的文本字段
-  if (obj.loc?.source) return obj.loc.source
-  if (obj.text) return obj.text
-  if (obj.value) return obj.value
-  if (typeof obj.t === 'string') return obj.t
-  if (obj.s) return obj.s
-  if (obj.v) return obj.v
-
-  // 如果有嵌套的 i 数组
-  if (obj.b?.i?.length > 0) {
-    const item = obj.b.i[0]
-    if (item.s) return item.s
-    if (item.v) return item.v
-    if (typeof item.t === 'string') return item.t
+  if (value.loc?.source) {
+    return value.loc.source
   }
-
-  // 如果都没有找到，返回空字符串
-  console.warn('No text found in object:', obj)
+  
+  // 生产环境 - 处理复杂的嵌套结构
+  if (value.b?.i) {
+    // 尝试找到包含实际文本的对象
+    const textObj = value.b.i.find(item => item.s || item.v)
+    if (textObj) {
+      return textObj.s || textObj.v || ''
+    }
+  }
+  
   return ''
 }
 
