@@ -18,7 +18,17 @@ interface I18nObject {
   loc?: {
     source: string;
   };
-  [key: string]: any;  // 允许任意嵌套结构
+  // 生产环境的结构
+  t?: number;
+  b?: {
+    t?: number;
+    i?: Array<{
+      t?: number;
+      k?: string;
+      v?: string;
+      s?: string;
+    }>;
+  };
 }
 
 interface LanguageModule {
@@ -137,40 +147,20 @@ const getLocation = async () => {
 const getI18nValue = (value: string | I18nObject): string => {
   if (typeof value === 'string') return value
   
-  // 开发环境结构
   if (value.loc?.source) {
     return value.loc.source
   }
   
-  // 递归查找任意嵌套结构中的文本值
-  const findTextValue = (obj: any): string => {
-    if (typeof obj === 'string') return obj
-    if (!obj || typeof obj !== 'object') return ''
-    
-    // 优先查找常见的文本字段
-    const textFields = ['source', 's', 'v', 'text', 'value']
-    for (const field of textFields) {
-      if (typeof obj[field] === 'string') return obj[field]
+  // 生产环境 - 处理复杂的嵌套结构
+  if (value.b?.i) {
+    // 尝试找到包含实际文本的对象
+    const textObj = value.b.i.find(item => item.s || item.v)
+    if (textObj) {
+      return textObj.s || textObj.v || ''
     }
-    
-    // 递归查找所有字段
-    for (const key in obj) {
-      if (Array.isArray(obj[key])) {
-        // 如果是数组，查找第一个有效的文本值
-        for (const item of obj[key]) {
-          const text = findTextValue(item)
-          if (text) return text
-        }
-      } else {
-        const text = findTextValue(obj[key])
-        if (text) return text
-      }
-    }
-    
-    return ''
   }
   
-  return findTextValue(value)
+  return ''
 }
 
 // 预加载所有语言包
@@ -197,6 +187,32 @@ const loadLanguageModule = async (code: string) => {
       throw new Error('Default language module not found')
     }
     return defaultLangModule.language
+  }
+}
+
+// 获取指定语言的翻译
+const getTranslation = (code: string, path: string) => {
+  try {
+    // 找到对应的语言包
+    const [, module] = Object.entries(locales).find(([filePath]) => 
+      filePath.toLowerCase().includes(code.toLowerCase())
+    ) || []
+    
+    if (!module) return ''
+    
+    // 按路径获取翻译
+    const keys = path.split('.')
+    let value = (module as any).default
+    
+    for (const key of keys) {
+      if (!value || typeof value !== 'object') return ''
+      value = value[key]
+    }
+    
+    return getI18nValue(value)
+  } catch (error) {
+    console.error(`Failed to get translation for ${code}:${path}`, error)
+    return ''
   }
 }
 
@@ -361,32 +377,21 @@ export const useLanguage = () => {
           path.toLowerCase().includes(detectedLang.toLowerCase())
         ) || []
 
-        const langMessages = (langModule as any)?.default?.language
-        console.log('已加载建议语言包', langMessages)
-        //const langName = langMessages.name.loc.source
-        const langName = getI18nValue(langMessages.name);
-        console.log('建议语言包名称', langName);
-        console.log('已加载建议语言包')
+        const langName = getTranslation(detectedLang, 'language.name')
+        console.log('建议语言包名称', langName)
 
         // 获取当前语言的名称
-        const [, currentLangModule] = Object.entries(locales).find(([path]) => 
-          path.toLowerCase().includes(currentCode.value.toLowerCase())
-        ) || []
-
-        const currentLangMessages = (currentLangModule as any)?.default?.language
-        console.log('已加载当前语言包', currentLangMessages)
-        const currentLangName = getI18nValue(currentLangMessages.name)
-        console.log('当前语言包名称', currentLangName);
-        console.log('已加载当前语言包')
+        const currentLangName = getTranslation(currentCode.value, 'language.name')
+        console.log('当前语言包名称', currentLangName)
 
         suggestionMessages.value = {
-          title: getI18nValue(langMessages.suggestion.title),
-          text: getI18nValue(langMessages.suggestion.text)
+          title: getTranslation(detectedLang, 'language.suggestion.title'),
+          text: getTranslation(detectedLang, 'language.suggestion.text')
             .replace('{country}', await getCountryName(countryCode, detectedLang))
             .replace('{language}', langName),
-          accept: getI18nValue(langMessages.suggestion.accept)
+          accept: getTranslation(detectedLang, 'language.suggestion.accept')
             .replace('{language}', langName),
-          reject: getI18nValue(currentLangMessages.suggestion.reject)
+          reject: getTranslation(currentCode.value, 'language.suggestion.reject')
             .replace('{language}', currentLangName)
         }
         console.log('已设置语言建议消息:', suggestionMessages.value)
