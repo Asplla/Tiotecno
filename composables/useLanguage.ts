@@ -15,8 +15,14 @@ console.log('All locales:', locales);
 let isGlobalDetecting = false
 
 interface I18nObject {
-  loc: {
+  loc?: {
     source: string;
+  };
+  b?: {
+    i?: Array<{
+      s?: string;
+      v?: string;
+    }>;
   };
 }
 
@@ -134,32 +140,16 @@ const getLocation = async () => {
 
 // 辅助函数：从 i18n 对象或字符串中获取实际值
 const getI18nValue = (value: string | I18nObject): string => {
-  console.log('getI18nValue input:', value)
-  
-  if (typeof value === 'string') {
-    console.log('String value:', value)
-    return value
+  if (typeof value === 'string') return value
+  // 开发环境
+  if (value.loc?.source) {
+    return value.loc.source
   }
-  
-  if (!value || typeof value !== 'object') {
-    console.warn('Invalid value:', value)
-    return ''
+  // 生产环境
+  if (value.b?.i?.[0]) {
+    return value.b.i[0].s || value.b.i[0].v || ''
   }
-  
-  if (!value.loc || typeof value.loc !== 'object') {
-    console.warn('Invalid loc object:', value)
-    return ''
-  }
-  
-  const source = value.loc.source
-  console.log('I18n source value:', source)
-  
-  if (typeof source !== 'string') {
-    console.warn('Invalid source value:', source)
-    return ''
-  }
-  
-  return value.loc.source
+  return ''
 }
 
 // 预加载所有语言包
@@ -350,9 +340,10 @@ export const useLanguage = () => {
           path.toLowerCase().includes(detectedLang.toLowerCase())
         ) || []
 
-        const langMessages = (langModule as LanguageModule).default.language
+        const langMessages = (langModule as any)?.default?.language
         console.log('已加载建议语言包', langMessages)
-        const langName = getI18nValue(langMessages.name)
+        //const langName = langMessages.name.loc.source
+        const langName = getI18nValue(langMessages.name);
         console.log('建议语言包名称', langName);
         console.log('已加载建议语言包')
 
@@ -361,18 +352,21 @@ export const useLanguage = () => {
           path.toLowerCase().includes(currentCode.value.toLowerCase())
         ) || []
 
-        const currentLangMessages = (currentLangModule as LanguageModule).default.language
+        const currentLangMessages = (currentLangModule as any)?.default?.language
         console.log('已加载当前语言包', currentLangMessages)
         const currentLangName = getI18nValue(currentLangMessages.name)
         console.log('当前语言包名称', currentLangName);
         console.log('已加载当前语言包')
+
         suggestionMessages.value = {
           title: getI18nValue(langMessages.suggestion.title),
           text: getI18nValue(langMessages.suggestion.text)
             .replace('{country}', await getCountryName(countryCode, detectedLang))
             .replace('{language}', langName),
-          accept: getI18nValue(langMessages.suggestion.accept),
+          accept: getI18nValue(langMessages.suggestion.accept)
+            .replace('{language}', langName),
           reject: getI18nValue(currentLangMessages.suggestion.reject)
+            .replace('{language}', currentLangName)
         }
         console.log('已设置语言建议消息:', suggestionMessages.value)
 
