@@ -36,7 +36,8 @@
     --card-bg: #FFFFFF;
     --card-border: rgba(0, 0, 0, 0.1);
     --card-shadow: rgba(0, 0, 0, 0.08);
-    --card-spotlight-color: rgba(0, 0, 0, 0.2);
+    --card-spotlight-color: rgba(0, 0, 0, 0.1);
+    --card-spotlight-color-dark: rgba(255, 255, 255, 0.2);
     --input-bg: #FFFFFF;
     --input-text: #000000;
     --input-placeholder: #888888;
@@ -109,6 +110,7 @@
     --card-border: rgba(255, 255, 255, 0.1);
     --card-shadow: rgba(0, 0, 0, 0.5);
     --card-spotlight-color: rgba(255, 255, 255, 0.2);
+    --card-spotlight-color-dark: rgba(0, 0, 0, 0.1);
     --input-bg: #111111;
     --input-text: #FFFFFF;
     --input-placeholder: #666666;

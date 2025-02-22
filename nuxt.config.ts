@@ -58,10 +58,7 @@ export default defineNuxtConfig({
     }
   },
   nitro: {
-    preset: 'vercel',
-    prerender: {
-      routes: ['/'],
-    }
+    preset: 'vercel-edge'
   },
   vite: {
     plugins: [

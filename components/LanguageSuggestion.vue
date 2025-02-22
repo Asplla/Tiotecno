@@ -8,18 +8,18 @@
           {{ suggestionMessages?.text }}
         </p>
         <div class="language-suggestion-buttons">
-          <button 
+           <SpotlightCard :spotlight-color="'var(--card-spotlight-color-dark)'"
             @click="acceptLanguageSuggestion"
             class="language-suggestion-accept"
           >
             {{ suggestionMessages?.accept }}
-          </button>
-          <button 
+          </SpotlightCard>
+          <SpotlightCard :spotlight-color="'var(--card-spotlight-color)'"
             @click="rejectLanguageSuggestion"
             class="language-suggestion-reject"
           >
             {{ suggestionMessages?.reject }}
-          </button>
+          </SpotlightCard>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import { useLanguage } from '~/composables/useLanguage'
-
+import SpotlightCard from '~/components/SpotlightCard.vue'
 const {
   showLanguageSuggestion,
   suggestionMessages,
