@@ -18,10 +18,15 @@ interface I18nObject {
   loc?: {
     source: string;
   };
+  // 生产环境的结构
+  t?: number;
   b?: {
+    t?: number;
     i?: Array<{
-      s?: string;
+      t?: number;
+      k?: string;
       v?: string;
+      s?: string;
     }>;
   };
 }
@@ -141,14 +146,20 @@ const getLocation = async () => {
 // 辅助函数：从 i18n 对象或字符串中获取实际值
 const getI18nValue = (value: string | I18nObject): string => {
   if (typeof value === 'string') return value
-  // 开发环境
+  
   if (value.loc?.source) {
     return value.loc.source
   }
-  // 生产环境
-  if (value.b?.i?.[0]) {
-    return value.b.i[0].s || value.b.i[0].v || ''
+  
+  // 生产环境 - 处理复杂的嵌套结构
+  if (value.b?.i) {
+    // 尝试找到包含实际文本的对象
+    const textObj = value.b.i.find(item => item.s || item.v)
+    if (textObj) {
+      return textObj.s || textObj.v || ''
+    }
   }
+  
   return ''
 }
 
