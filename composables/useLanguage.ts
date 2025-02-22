@@ -10,7 +10,7 @@ import { useRuntimeConfig } from '#app'
 
 // 自动导入所有语言包
 const locales = import.meta.glob('~/locales/*.ts', { eager: true })
-
+console.log('All locales:', locales);
 // 全局检测状态
 let isGlobalDetecting = false
 
