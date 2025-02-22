@@ -134,8 +134,32 @@ const getLocation = async () => {
 
 // 辅助函数：从 i18n 对象或字符串中获取实际值
 const getI18nValue = (value: string | I18nObject): string => {
-  if (typeof value === 'string') return value
-  return value.loc?.source
+  console.log('getI18nValue input:', value)
+  
+  if (typeof value === 'string') {
+    console.log('String value:', value)
+    return value
+  }
+  
+  if (!value || typeof value !== 'object') {
+    console.warn('Invalid value:', value)
+    return ''
+  }
+  
+  if (!value.loc || typeof value.loc !== 'object') {
+    console.warn('Invalid loc object:', value)
+    return ''
+  }
+  
+  const source = value.loc.source
+  console.log('I18n source value:', source)
+  
+  if (typeof source !== 'string') {
+    console.warn('Invalid source value:', source)
+    return ''
+  }
+  
+  return value.loc.source
 }
 
 // 预加载所有语言包
@@ -342,17 +366,13 @@ export const useLanguage = () => {
         const currentLangName = getI18nValue(currentLangMessages.name)
         console.log('当前语言包名称', currentLangName);
         console.log('已加载当前语言包')
-        console.log(getI18nValue(langMessages.suggestion.title))
-        console.log(getI18nValue(langMessages.suggestion.text))
         suggestionMessages.value = {
           title: getI18nValue(langMessages.suggestion.title),
           text: getI18nValue(langMessages.suggestion.text)
             .replace('{country}', await getCountryName(countryCode, detectedLang))
             .replace('{language}', langName),
-          accept: getI18nValue(langMessages.suggestion.accept)
-            .replace('{language}', langName),
+          accept: getI18nValue(langMessages.suggestion.accept),
           reject: getI18nValue(currentLangMessages.suggestion.reject)
-            .replace('{language}', currentLangName)
         }
         console.log('已设置语言建议消息:', suggestionMessages.value)
 
