@@ -39,7 +39,7 @@ interface LanguageModule {
 
 // 构建国家到语言的映射
 const countryToLanguage = Object.entries(locales).reduce((acc, [path, module]) => {
-  const code = path.match(/\/([^/]+)\.ts$/)?.[1]
+  const code = path.split('/').pop()?.replace('.ts', '')
   const langModule = module as LanguageModule
   
   // 确保模块有正确的结构
@@ -65,7 +65,7 @@ const countryToLanguage = Object.entries(locales).reduce((acc, [path, module]) =
 
 // 动态生成语言标签映射
 const languageLabels = Object.entries(locales).reduce((acc, [path, module]) => {
-  const code = path.match(/\/([^/]+)\.ts$/)?.[1]
+  const code = path.split('/').pop()?.replace('.ts', '')
   if (!code || !(module as any).default?.language?.name) return acc
   
   acc[code] = (module as any).default.language.name
@@ -322,19 +322,19 @@ export const useLanguage = () => {
         suggestedLanguage.value = detectedLang
 
         // 获取语言包
-        const langModule = await loadLanguageModule(detectedLang)
-        const messages = langModule.suggestion
-        const langName = typeof langModule.name === 'string' 
-          ? langModule.name 
-          : langModule.name.loc?.source || ''
+        const [, langModule] = Object.entries(locales).find(([path]) => 
+          path.toLowerCase().includes(detectedLang.toLowerCase())
+        ) || []
+        const messages = (langModule as LanguageModule).default.language.suggestion
+        const langName = getI18nValue((langModule as LanguageModule).default.language.name)
         console.log('已加载建议语言包')
 
         // 获取当前语言的名称
-        const currentLangModule = await loadLanguageModule(currentCode.value)
-        const currentMessages = currentLangModule.suggestion
-        const currentLangName = typeof currentLangModule.name === 'string'
-          ? currentLangModule.name
-          : currentLangModule.name.loc?.source || ''
+        const [, currentLangModule] = Object.entries(locales).find(([path]) => 
+          path.toLowerCase().includes(currentCode.value.toLowerCase())
+        ) || []
+        const currentMessages = (currentLangModule as LanguageModule).default.language.suggestion
+        const currentLangName = getI18nValue((currentLangModule as LanguageModule).default.language.name)
         console.log('已加载当前语言包')
 
         suggestionMessages.value = {
