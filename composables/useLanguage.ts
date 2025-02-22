@@ -138,6 +138,22 @@ const getI18nValue = (value: string | I18nObject): string => {
   return value.loc?.source || ''
 }
 
+// 预加载所有语言包
+const loadLanguageModule = async (code: string) => {
+  try {
+    const langModule = (await import(`../locales/${code}.ts`))
+    if (!langModule?.default?.language) {
+      throw new Error(`Invalid language module for ${code}`)
+    }
+    return langModule.default.language
+  } catch (error) {
+    console.error(`Failed to load language module ${code}:`, error)
+    // 回退到默认语言
+    const defaultModule = await import(`../locales/${config.language.default}.ts`)
+    return defaultModule.default.language
+  }
+}
+
 export const useLanguage = () => {
   console.log('=== 初始化语言组件 ===')
   const { locale, locales: i18nLocales, t, setLocale } = useI18n()
@@ -295,19 +311,19 @@ export const useLanguage = () => {
         suggestedLanguage.value = detectedLang
 
         // 获取语言包
-        const langModule = (await import(`../locales/${detectedLang}.ts`)).default.language
+        const langModule = await loadLanguageModule(detectedLang)
         const messages = langModule.suggestion
         const langName = typeof langModule.name === 'string' 
           ? langModule.name 
           : langModule.name.loc?.source || ''
         console.log('已加载建议语言包')
 
-         // 获取当前语言的名称
-         const currentLangModule = (await import(`../locales/${currentCode.value}.ts`)).default.language
-         const currentMessages = currentLangModule.suggestion
-         const currentLangName = typeof currentLangModule.name === 'string'
-           ? currentLangModule.name
-           : currentLangModule.name.loc?.source || ''
+        // 获取当前语言的名称
+        const currentLangModule = await loadLanguageModule(currentCode.value)
+        const currentMessages = currentLangModule.suggestion
+        const currentLangName = typeof currentLangModule.name === 'string'
+          ? currentLangModule.name
+          : currentLangModule.name.loc?.source || ''
         console.log('已加载当前语言包')
 
         suggestionMessages.value = {
@@ -378,7 +394,7 @@ export const useLanguage = () => {
   const updateHtmlLang = async (code: string) => {
     try {
       // 从语言包中获取 lang
-      const langModule = (await import(`../locales/${code}.ts`)).default.language
+      const langModule = await loadLanguageModule(code)
       const lang = getI18nValue(langModule.lang).split('-')[0]
       console.log('更新 HTML lang 属性:', lang)
       useHead({
