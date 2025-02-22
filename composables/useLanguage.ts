@@ -171,48 +171,22 @@ const loadLanguageModule = async (code: string) => {
       path.toLowerCase().includes(code.toLowerCase())
     ) || []
     
-    const langModule = (module as LanguageModule)?.default
-    if (!langModule?.language) {
+    const langModule = (module as any)?.default?.language
+    if (!langModule) {
       throw new Error(`Invalid language module for ${code}`)
     }
-    return langModule.language
+    return langModule
   } catch (error) {
     console.error(`Failed to load language module ${code}:`, error)
     // 回退到默认语言
     const [, defaultModule] = Object.entries(locales).find(([path]) => 
       path.toLowerCase().includes(config.language.default.toLowerCase())
     ) || []
-    const defaultLangModule = (defaultModule as LanguageModule)?.default
-    if (!defaultLangModule?.language) {
+    const defaultLangModule = (defaultModule as any)?.default?.language
+    if (!defaultLangModule) {
       throw new Error('Default language module not found')
     }
-    return defaultLangModule.language
-  }
-}
-
-// 获取指定语言的翻译
-const getTranslation = (code: string, path: string) => {
-  try {
-    // 找到对应的语言包
-    const [, module] = Object.entries(locales).find(([filePath]) => 
-      filePath.toLowerCase().includes(code.toLowerCase())
-    ) || []
-    
-    if (!module) return ''
-    
-    // 按路径获取翻译
-    const keys = path.split('.')
-    let value = (module as any).default
-    
-    for (const key of keys) {
-      if (!value || typeof value !== 'object') return ''
-      value = value[key]
-    }
-    
-    return getI18nValue(value)
-  } catch (error) {
-    console.error(`Failed to get translation for ${code}:${path}`, error)
-    return ''
+    return defaultLangModule
   }
 }
 
@@ -373,25 +347,25 @@ export const useLanguage = () => {
         suggestedLanguage.value = detectedLang
 
         // 获取语言包
-        const [, langModule] = Object.entries(locales).find(([path]) => 
-          path.toLowerCase().includes(detectedLang.toLowerCase())
-        ) || []
-
-        const langName = getTranslation(detectedLang, 'language.name')
+        const langMessages = await loadLanguageModule(detectedLang)
+        console.log('已加载建议语言包', langMessages)
+        const langName = getI18nValue(langMessages.name)
         console.log('建议语言包名称', langName)
 
         // 获取当前语言的名称
-        const currentLangName = getTranslation(currentCode.value, 'language.name')
+        const currentLangMessages = await loadLanguageModule(currentCode.value)
+        console.log('已加载当前语言包', currentLangMessages)
+        const currentLangName = getI18nValue(currentLangMessages.name)
         console.log('当前语言包名称', currentLangName)
 
         suggestionMessages.value = {
-          title: getTranslation(detectedLang, 'language.suggestion.title'),
-          text: getTranslation(detectedLang, 'language.suggestion.text')
+          title: getI18nValue(langMessages.suggestion.title),
+          text: getI18nValue(langMessages.suggestion.text)
             .replace('{country}', await getCountryName(countryCode, detectedLang))
             .replace('{language}', langName),
-          accept: getTranslation(detectedLang, 'language.suggestion.accept')
+          accept: getI18nValue(langMessages.suggestion.accept)
             .replace('{language}', langName),
-          reject: getTranslation(currentCode.value, 'language.suggestion.reject')
+          reject: getI18nValue(currentLangMessages.suggestion.reject)
             .replace('{language}', currentLangName)
         }
         console.log('已设置语言建议消息:', suggestionMessages.value)
