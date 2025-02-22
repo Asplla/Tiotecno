@@ -147,19 +147,28 @@ const getLocation = async () => {
 const getI18nValue = (value: string | I18nObject): string => {
   if (typeof value === 'string') return value
   
+  // 开发环境
   if (value.loc?.source) {
     return value.loc.source
   }
   
   // 生产环境 - 处理复杂的嵌套结构
   if (value.b?.i) {
-    // 尝试找到包含实际文本的对象
-    const textObj = value.b.i.find(item => item.s || item.v)
-    if (textObj) {
-      return textObj.s || textObj.v || ''
+    for (const item of value.b.i) {
+      // 检查所有可能的文本字段
+      if (item.s) return item.s
+      if (item.v) return item.v
+      if (item.t && typeof item.t === 'string') return item.t
+      if (item.text) return item.text
     }
   }
   
+  // 尝试直接获取值
+  if (value.value) return value.value
+  if (value.text) return value.text
+  if (value.t && typeof value.t === 'string') return value.t
+  
+  console.warn('Unable to extract text from value:', value)
   return ''
 }
 
@@ -171,22 +180,22 @@ const loadLanguageModule = async (code: string) => {
       path.toLowerCase().includes(code.toLowerCase())
     ) || []
     
-    const langModule = (module as any)?.default?.language
-    if (!langModule) {
+    const langModule = (module as LanguageModule)?.default
+    if (!langModule?.language) {
       throw new Error(`Invalid language module for ${code}`)
     }
-    return langModule
+    return langModule.language
   } catch (error) {
     console.error(`Failed to load language module ${code}:`, error)
     // 回退到默认语言
     const [, defaultModule] = Object.entries(locales).find(([path]) => 
       path.toLowerCase().includes(config.language.default.toLowerCase())
     ) || []
-    const defaultLangModule = (defaultModule as any)?.default?.language
-    if (!defaultLangModule) {
+    const defaultLangModule = (defaultModule as LanguageModule)?.default
+    if (!defaultLangModule?.language) {
       throw new Error('Default language module not found')
     }
-    return defaultLangModule
+    return defaultLangModule.language
   }
 }
 
@@ -347,16 +356,27 @@ export const useLanguage = () => {
         suggestedLanguage.value = detectedLang
 
         // 获取语言包
-        const langMessages = await loadLanguageModule(detectedLang)
+        const [, langModule] = Object.entries(locales).find(([path]) => 
+          path.toLowerCase().includes(detectedLang.toLowerCase())
+        ) || []
+
+        const langMessages = (langModule as any)?.default?.language
         console.log('已加载建议语言包', langMessages)
-        const langName = getI18nValue(langMessages.name)
-        console.log('建议语言包名称', langName)
+        //const langName = langMessages.name.loc.source
+        const langName = getI18nValue(langMessages.name);
+        console.log('建议语言包名称', langName);
+        console.log('已加载建议语言包')
 
         // 获取当前语言的名称
-        const currentLangMessages = await loadLanguageModule(currentCode.value)
+        const [, currentLangModule] = Object.entries(locales).find(([path]) => 
+          path.toLowerCase().includes(currentCode.value.toLowerCase())
+        ) || []
+
+        const currentLangMessages = (currentLangModule as any)?.default?.language
         console.log('已加载当前语言包', currentLangMessages)
         const currentLangName = getI18nValue(currentLangMessages.name)
-        console.log('当前语言包名称', currentLangName)
+        console.log('当前语言包名称', currentLangName);
+        console.log('已加载当前语言包')
 
         suggestionMessages.value = {
           title: getI18nValue(langMessages.suggestion.title),
