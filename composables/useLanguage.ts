@@ -325,26 +325,30 @@ export const useLanguage = () => {
         const [, langModule] = Object.entries(locales).find(([path]) => 
           path.toLowerCase().includes(detectedLang.toLowerCase())
         ) || []
-        const messages = (langModule as LanguageModule).default.language.suggestion
-        const langName = getI18nValue((langModule as LanguageModule).default.language.name)
+        
+        const langMessages = (langModule as any)?.default?.language
+        console.log('已加载建议语言包', langMessages)
+        const langName = langMessages.name.loc.source
         console.log('已加载建议语言包')
 
         // 获取当前语言的名称
         const [, currentLangModule] = Object.entries(locales).find(([path]) => 
           path.toLowerCase().includes(currentCode.value.toLowerCase())
         ) || []
-        const currentMessages = (currentLangModule as LanguageModule).default.language.suggestion
-        const currentLangName = getI18nValue((currentLangModule as LanguageModule).default.language.name)
+
+        const currentLangMessages = (currentLangModule as any)?.default?.language
+        console.log('已加载当前语言包', currentLangMessages)
+        const currentLangName = currentLangMessages.name.loc.source
         console.log('已加载当前语言包')
 
         suggestionMessages.value = {
-          title: getI18nValue(messages.title),
-          text: getI18nValue(messages.text)
+          title: langMessages.suggestion.title.loc.source,
+          text: langMessages.suggestion.text.loc.source
             .replace('{country}', await getCountryName(countryCode, detectedLang))
             .replace('{language}', langName),
-          accept: getI18nValue(messages.accept)
+          accept: langMessages.suggestion.accept.loc.source
             .replace('{language}', langName),
-          reject: getI18nValue(currentMessages.reject)
+          reject: currentLangMessages.suggestion.reject.loc.source
             .replace('{language}', currentLangName)
         }
         console.log('已设置语言建议消息:', suggestionMessages.value)
