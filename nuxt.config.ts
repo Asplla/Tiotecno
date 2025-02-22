@@ -108,10 +108,7 @@ export default defineNuxtConfig({
     strategy: 'prefix',
     vueI18n: './config/i18n.config.ts',
     locales: getLocales(),
-    detectBrowserLanguage: false,
-    experimental: {
-      jsTsFormatResource: true
-    }
+    detectBrowserLanguage: false
   },
   modules: [
     '@nuxtjs/i18n'

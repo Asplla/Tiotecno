@@ -141,17 +141,19 @@ const getI18nValue = (value: string | I18nObject): string => {
 // 预加载所有语言包
 const loadLanguageModule = async (code: string) => {
   try {
-    // 使用 Nuxt 的动态导入
-    const langModule = await $fetch(`/locales/${code}.ts`)
-    if (!langModule?.default?.language) {
+    // 使用动态导入，但处理文件名格式
+    const normalizedCode = code.toLowerCase()
+    const langModule = (await import(`../locales/${normalizedCode}.ts`)).default
+    if (!langModule?.language) {
       throw new Error(`Invalid language module for ${code}`)
     }
-    return langModule.default.language
+    return langModule.language
   } catch (error) {
     console.error(`Failed to load language module ${code}:`, error)
     // 回退到默认语言
-    const defaultModule = await $fetch(`/locales/${config.language.default}.ts`)
-    return defaultModule.default.language
+    const defaultCode = config.language.default.toLowerCase()
+    const defaultModule = (await import(`../locales/${defaultCode}.ts`)).default
+    return defaultModule.language
   }
 }
 
