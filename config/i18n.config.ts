@@ -4,36 +4,60 @@ import config from './config'
 // 自动导入所有语言包
 const locales = import.meta.glob('../locales/*.ts', { eager: true })
 
+interface LocaleMessage {
+  [key: string]: any;
+}
+
+interface LocaleInfo {
+  code: string;
+  name: string;
+  file: string;
+}
+
 // 处理语言包
 const messages = Object.entries(locales).reduce((acc, [path, module]) => {
   const code = path.match(/\/([^/]+)\.ts$/)?.[1]
 
   if (code && (module as any).default) {
-    // 预处理语言包中的对象
-    const processI18nObject = (obj: any): any => {
-      if (!obj || typeof obj !== 'object') return obj
-      
-      if (obj.loc?.source) {
-        return obj.loc.source
+    // 预处理语言包
+    const processMessages = (obj: any): any => {
+      // 如果是数组，处理每个元素
+      if (Array.isArray(obj)) {
+        return obj.map(item => processMessages(item))
       }
       
-      if (obj.b?.i) {
-        const textObj = obj.b.i.find((item: any) => item.s || item.v)
-        if (textObj) {
-          return textObj.s || textObj.v || ''
+      // 如果不是对象，直接返回
+      if (!obj || typeof obj !== 'object') {
+        return obj
+      }
+      
+      // 处理对象
+      const result: any = {}
+      for (const key in obj) {
+        const value = obj[key]
+        
+        // 如果有 loc.source，使用它的值
+        if (value?.loc?.source) {
+          result[key] = value.loc.source
+        }
+        // 如果有 b.i 结构，提取文本
+        else if (value?.b?.i) {
+          const textObj = value.b.i.find((item: any) => item.s || item.v)
+          result[key] = textObj ? (textObj.s || textObj.v) : value
+        }
+        // 递归处理其他对象
+        else if (typeof value === 'object') {
+          result[key] = processMessages(value)
+        }
+        // 保持其他值不变
+        else {
+          result[key] = value
         }
       }
-      
-      const result: any = Array.isArray(obj) ? [] : {}
-      
-      for (const key in obj) {
-        result[key] = processI18nObject(obj[key])
-      }
-      
       return result
     }
     
-    acc[code] = processI18nObject((module as any).default)
+    acc[code] = processMessages((module as any).default)
   }
   return acc
 }, {} as Record<string, any>)
@@ -51,8 +75,8 @@ export default {
   messages,
   fallbackLocale: config.language.fallback,
   availableLocales: availableLocales.map(locale => locale.code),
-  formatLocaleMessage: (locale, message) => message
+  formatLocaleMessage: (locale: string, message: LocaleMessage) => message
 }
 
 // 导出语言列表供 nuxt.config.ts 使用
-export const getI18nLocales = () => availableLocales 
+export const getI18nLocales = (): LocaleInfo[] => availableLocales 
