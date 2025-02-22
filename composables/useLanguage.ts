@@ -18,17 +18,7 @@ interface I18nObject {
   loc?: {
     source: string;
   };
-  // 生产环境的结构
-  t?: number;
-  b?: {
-    t?: number;
-    i?: Array<{
-      t?: number;
-      k?: string;
-      v?: string;
-      s?: string;
-    }>;
-  };
+  [key: string]: any;  // 允许任意嵌套结构
 }
 
 interface LanguageModule {
@@ -147,20 +137,40 @@ const getLocation = async () => {
 const getI18nValue = (value: string | I18nObject): string => {
   if (typeof value === 'string') return value
   
+  // 开发环境结构
   if (value.loc?.source) {
     return value.loc.source
   }
   
-  // 生产环境 - 处理复杂的嵌套结构
-  if (value.b?.i) {
-    // 尝试找到包含实际文本的对象
-    const textObj = value.b.i.find(item => item.s || item.v)
-    if (textObj) {
-      return textObj.s || textObj.v || ''
+  // 递归查找任意嵌套结构中的文本值
+  const findTextValue = (obj: any): string => {
+    if (typeof obj === 'string') return obj
+    if (!obj || typeof obj !== 'object') return ''
+    
+    // 优先查找常见的文本字段
+    const textFields = ['source', 's', 'v', 'text', 'value']
+    for (const field of textFields) {
+      if (typeof obj[field] === 'string') return obj[field]
     }
+    
+    // 递归查找所有字段
+    for (const key in obj) {
+      if (Array.isArray(obj[key])) {
+        // 如果是数组，查找第一个有效的文本值
+        for (const item of obj[key]) {
+          const text = findTextValue(item)
+          if (text) return text
+        }
+      } else {
+        const text = findTextValue(obj[key])
+        if (text) return text
+      }
+    }
+    
+    return ''
   }
   
-  return ''
+  return findTextValue(value)
 }
 
 // 预加载所有语言包
