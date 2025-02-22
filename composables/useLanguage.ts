@@ -135,7 +135,7 @@ const getLocation = async () => {
 // 辅助函数：从 i18n 对象或字符串中获取实际值
 const getI18nValue = (value: string | I18nObject): string => {
   if (typeof value === 'string') return value
-  return value.loc?.source || ''
+  return value.loc?.source
 }
 
 // 预加载所有语言包
@@ -326,10 +326,10 @@ export const useLanguage = () => {
           path.toLowerCase().includes(detectedLang.toLowerCase())
         ) || []
 
-        const langMessages = (langModule as any)?.default?.language
+        const langMessages = (langModule as LanguageModule).default.language
         console.log('已加载建议语言包', langMessages)
-        const langName = langMessages.name.loc.source
-        console.log('建议语言包名称', langMessages.name.loc.source);
+        const langName = getI18nValue(langMessages.name)
+        console.log('建议语言包名称', langName);
         console.log('已加载建议语言包')
 
         // 获取当前语言的名称
@@ -337,20 +337,20 @@ export const useLanguage = () => {
           path.toLowerCase().includes(currentCode.value.toLowerCase())
         ) || []
 
-        const currentLangMessages = (currentLangModule as any)?.default?.language
+        const currentLangMessages = (currentLangModule as LanguageModule).default.language
         console.log('已加载当前语言包', currentLangMessages)
-        const currentLangName = currentLangMessages.name.loc.source
-        console.log('当前语言包名称', currentLangMessages.name.loc.source);
+        const currentLangName = getI18nValue(currentLangMessages.name)
+        console.log('当前语言包名称', currentLangName);
         console.log('已加载当前语言包')
 
         suggestionMessages.value = {
-          title: langMessages.suggestion.title.loc.source,
-          text: langMessages.suggestion.text.loc.source
+          title: getI18nValue(langMessages.suggestion.title),
+          text: getI18nValue(langMessages.suggestion.text)
             .replace('{country}', await getCountryName(countryCode, detectedLang))
             .replace('{language}', langName),
-          accept: langMessages.suggestion.accept.loc.source
+          accept: getI18nValue(langMessages.suggestion.accept)
             .replace('{language}', langName),
-          reject: currentLangMessages.suggestion.reject.loc.source
+          reject: getI18nValue(currentLangMessages.suggestion.reject)
             .replace('{language}', currentLangName)
         }
         console.log('已设置语言建议消息:', suggestionMessages.value)

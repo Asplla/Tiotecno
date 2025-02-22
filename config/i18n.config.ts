@@ -26,7 +26,8 @@ export default {
   locale: config.language.default,
   messages,
   fallbackLocale: config.language.fallback,
-  availableLocales: availableLocales.map(locale => locale.code)
+  availableLocales: availableLocales.map(locale => locale.code),
+  formatLocaleMessage: (locale, message) => message
 }
 
 // 导出语言列表供 nuxt.config.ts 使用
