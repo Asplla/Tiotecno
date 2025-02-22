@@ -58,7 +58,10 @@ export default defineNuxtConfig({
     }
   },
   nitro: {
-    preset: 'vercel-edge'
+    preset: 'vercel',
+    prerender: {
+      routes: ['/'],
+    }
   },
   vite: {
     plugins: [
@@ -105,7 +108,10 @@ export default defineNuxtConfig({
     strategy: 'prefix',
     vueI18n: './config/i18n.config.ts',
     locales: getLocales(),
-    detectBrowserLanguage: false
+    detectBrowserLanguage: false,
+    experimental: {
+      jsTsFormatResource: true
+    }
   },
   modules: [
     '@nuxtjs/i18n'
