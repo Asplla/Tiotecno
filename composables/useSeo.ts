@@ -6,7 +6,7 @@ import config from '~/config/config'
 interface SeoOptions {
   title?: string
   description?: string
-  keywords?: string | string[]
+  keywords?: string
   image?: string
   url?: string
   type?: string
@@ -30,7 +30,7 @@ export const useSeo = (options?: SeoOptions) => {
   const description = options?.description || config.site.description
   const url = options?.url || `${config.site.url}${route.path}`
   const image = options?.image || `${config.site.url}${config.site.ogImage}`
-  const keywords = Array.isArray(options?.keywords) ? options.keywords.join(', ') : options?.keywords || config.site.keywords.join(', ')
+  const keywords = options?.keywords || config.site.keywords
   const type = options?.type || 'website'
 
   useHead({

@@ -42,7 +42,7 @@
                         >
                             <!-- 翻译图标 -->
                             <WorldIcon class="w-5 h-5" />
-                            <span class="text-sm px-0.5">{{ currentLocale?.label || 'Language' }}</span>
+                            <span class="text-sm px-0.5">{{ currentLocale?.name || 'Language' }}</span>
                             <!-- 下箭头图标 -->
                             <ArrowDownIcon class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': isLangOpen }" />
                         </button>
@@ -52,12 +52,12 @@
                             class="dropdown-menu w-36 mb-2 bottom-[calc(100%+1px)] right-0"
                         >
                             <button class="dropdown-item text-sm px-4 py-2"
-                                v-for="lang in availableLocales"
-                                :key="lang.code"
-                                @click="changeLang(lang.code)"
-                                :class="{ 'active': currentLocale?.code === lang.code }"
+                                v-for="locale in locales"
+                                :key="locale.code"
+                                @click="onLocaleChange(locale.code)"
+                                :class="{ 'active': currentLocale?.code === locale.code }"
                             >
-                                {{ lang.label }}
+                                {{ locale.name }}
                             </button>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
     </footer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { menuItems } from '~/config/menu'
 import { useTheme } from '~/composables/useTheme'
@@ -94,28 +94,29 @@ import ThemeLightIcon from '~/assets/icon/theme-light.svg?component'
 import ThemeDarkIcon from '~/assets/icon/theme-dark.svg?component'
 
 const { t } = useI18n()
-const { currentLocale, availableLocales, changeLocale, canSwitchLanguage } = useLanguage()
+const {
+    currentCode,
+    currentLocale,
+    changeLocale,
+    canSwitchLanguage,
+    locales
+} = useLanguage()
 const { currentTheme, isDarkMode, toggleTheme, canSwitchTheme } = useTheme()
 
 const isLangOpen = ref(false)
-const selectedLocale = ref('zh-CN')
 
-const themeLabels = {
+const themeLabels: { [key: string]: string } = {
     system: t('theme.system'),
     light: t('theme.light'),
     dark: t('theme.dark')
 }
 
-const changeLang = (code) => {
+const onLocaleChange = (code: string) => {
     changeLocale(code)
     isLangOpen.value = false
 }
 
-const switchLocale = () => {
-    // TODO: Implement locale switching logic
-}
-
-const scrollToElement = (elementId) => {
+const scrollToElement = (elementId: string) => {
     if (!process.client) return
     
     const element = document.getElementById(elementId)

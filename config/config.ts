@@ -1,9 +1,13 @@
+import { availableLanguages } from '../nuxt.config'
+import fs from 'fs'
+import path from 'path'
+
 export interface SiteConfig {
   site: {
     url: string
     title: string
     description: string
-    keywords: string[]
+    keywords: string
     author: string
     email: string
     favicon: string
@@ -34,6 +38,14 @@ export interface SiteConfig {
   }
 }
 
+// 获取可用语言列表
+function getAvailableLanguages(): string[] {
+  const localesDir = path.resolve(__dirname, '../locales')
+  return fs.readdirSync(localesDir)
+    .filter(file => file.endsWith('.ts'))
+    .map(file => file.replace('.ts', ''))
+}
+
 /**
  * 网站全局配置
  */
@@ -42,23 +54,7 @@ const config: SiteConfig = {
     url: 'https://tiotecno.vercel.app',
     title: 'Tiotecno - Trusted China Sourcing Agent.',
     description: 'China purchasing agent dedicated to source the best prices and highest quality. Offering one-stop service tailored for Amazon sellers and online store owners.',
-    keywords: [
-      'China sourcing agent',
-      'China buying agent',
-      'China procurement service',
-      'China product sourcing',
-      'China supplier verification',
-      'China factory audit',
-      'China quality inspection',
-      'China manufacturing',
-      'China wholesale supplier',
-      'Amazon FBA sourcing',
-      'China import export',
-      'China trade agent',
-      'China supply chain',
-      'China dropshipping agent',
-      'Alibaba sourcing agent'
-    ],
+    keywords: '中国外贸采购代理服务商, 外贸采购代理, 外贸采购, 外贸采购代理公司, 外贸采购代理服务, 外贸采购代理费用, 外贸采购代理流程, 外贸采购代理公司排名, 外贸采购代理公司推荐, 外贸采购代理公司哪家好, 外贸采购代理公司哪家便宜, 外贸采购代理公司哪家靠谱, 外贸采购代理公司哪家服务好, 外贸采购代理公司哪家服务便宜, 外贸采购代理公司哪家服务靠谱',
     author: 'Tiotecno.',
     email: 'tiotecno@hotmail.com',
     favicon: '/favicon.ico',
@@ -71,13 +67,12 @@ const config: SiteConfig = {
   },
   language: {
     // 设置英语为默认语言
-    default: 'en',
+    default: 'en-us',
     // 如果检测到的语言不支持，回退到英语
-    fallback: 'en',
+    fallback: 'en-us',
     // 允许用户切换语言
     allowSwitch: true,
-    // 可用的语言列表
-    available: ['en', 'zh', 'es']
+    available: [] // 将在运行时通过 useRuntimeConfig 填充
   },
   theme: {
     // 强制使用暗色主题

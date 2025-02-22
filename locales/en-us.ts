@@ -1,11 +1,24 @@
 export default {
   language: {
     name: 'English',
-    countries: ['US', 'GB', 'AU', 'CA', 'NZ', 'IE', 'JP'], // 添加日本
-    suggestionTitle: 'Language Suggestion',
-    suggestionText: 'We detected you\'re from {country}. Would you like to switch to {language}?',
-    suggestionAccept: 'Switch to {language}',
-    suggestionReject: 'Keep {language}'
+    lang: 'en-US',
+    status: true,
+    countries: ['US', 'GB', 'AU', 'CA', 'NZ', 'IE'], // 添加日本
+    suggestion: {
+      title: 'Language Suggestion',
+      text: 'We detected you\'re from {country}. Would you like to switch to {language}?',
+      accept: 'Switch to {language}',
+      reject: 'Keep {language}'
+    }
+  },
+  meta: {
+    title: {
+      siteName: 'Tiotecno',
+      siteDesc: 'China Foreign Trade Procurement Agent',
+      separator: ' - '
+    },
+    description: 'China Foreign Trade Procurement Agent',
+    keywords: ''
   },
   menu: {
     home: 'Home',
@@ -129,13 +142,6 @@ export default {
         title: 'Policy benefits, precise cost reduction',
         description: 'With export tax rebates and free trade zone storage policies, we help you save taxes compliantly, reducing overall costs by 5%-15%.'
       }
-    }
-  },
-  meta: {
-    title: {
-      siteName: 'Tiotecno',
-      siteDesc: 'China Foreign Trade Procurement Agent',
-      separator: ' - '
     }
   }
 } 

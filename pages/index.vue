@@ -280,11 +280,7 @@ onMounted(() => {
 useSeo({
   title: `${t('meta.title.siteName')}${t('meta.title.separator')}${t('meta.title.siteDesc')}`,
   description: t('meta.description'),
-  keywords: [
-    t('meta.keywords.sourcing'),
-    t('meta.keywords.china'),
-    t('meta.keywords.manufacturing')
-  ]
+  keywords: t('meta.keywords')
 })
 </script>
 <style scoped>

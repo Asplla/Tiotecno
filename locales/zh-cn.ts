@@ -1,18 +1,24 @@
 export default {
   language: {
     name: '简体中文',
-    countries: ['CN', 'TW', 'HK', 'MO', 'SG'],
-    suggestionTitle: '语言建议',
-    suggestionText: '检测到您来自{country}，是否切换到{language}？',
-    suggestionAccept: '切换到{language}',
-    suggestionReject: '保持{language}'
+    lang: 'zh-CN',
+    status: true,
+    countries: ['CN', 'HK', 'TW', 'MO', 'SG'],
+    suggestion: {
+      title: '语言建议',
+      text: '检测到您来自{country}，是否切换到{language}？',
+      accept: '切换到{language}',
+      reject: '保持{language}'
+    }
   },
   meta: {
     title: {
       siteName: 'Tiotecno',
       siteDesc: '中国外贸采购代理服务商',
       separator: ' - '
-    }
+    },
+    description: '中国外贸采购代理服务商',
+    keywords: '中国外贸采购代理服务商, 外贸采购代理, 外贸采购, 外贸采购代理公司, 外贸采购代理服务, 外贸采购代理费用, 外贸采购代理流程, 外贸采购代理公司排名, 外贸采购代理公司推荐, 外贸采购代理公司哪家好, 外贸采购代理公司哪家便宜, 外贸采购代理公司哪家靠谱, 外贸采购代理公司哪家服务好, 外贸采购代理公司哪家服务便宜, 外贸采购代理公司哪家服务靠谱'
   },
   menu: {
     home: '首页',

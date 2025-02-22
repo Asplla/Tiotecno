@@ -1,10 +1,12 @@
 import { ref, computed, nextTick, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { useI18n, useSwitchLocalePath } from '#imports'
 import { useCookie } from '#app'
 import config from '~/config/config'
 import { useInitOverlay } from './useInitOverlay'
 import { useHead } from '#imports'
-import { languageLabels } from '~/constants/languages'
+import { useRoute, useRouter } from 'vue-router'
+import { useState } from '#imports'
+import { useRuntimeConfig } from '#app'
 
 // 自动导入所有语言包
 const locales = import.meta.glob('~/locales/*.ts', { eager: true })
@@ -12,15 +14,52 @@ const locales = import.meta.glob('~/locales/*.ts', { eager: true })
 // 全局检测状态
 let isGlobalDetecting = false
 
-// 动态生成国家到语言的映射
+interface I18nObject {
+  loc: {
+    source: string;
+  };
+}
+
+interface LanguageModule {
+  default: {
+    language: {
+      name: string | I18nObject
+      lang: string | I18nObject
+      status: boolean
+      countries: (string | I18nObject)[]
+      suggestion: {
+        title: string | I18nObject
+        text: string | I18nObject
+        accept: string | I18nObject
+        reject: string | I18nObject
+      }
+    }
+  }
+}
+
+// 构建国家到语言的映射
 const countryToLanguage = Object.entries(locales).reduce((acc, [path, module]) => {
   const code = path.match(/\/([^/]+)\.ts$/)?.[1]
-  if (!code || !(module as any).default?.language?.countries) return acc
+  const langModule = module as LanguageModule
   
-  const countries = (module as any).default.language.countries
-  countries.forEach((country: string) => {
+  // 确保模块有正确的结构
+  if (!code || !langModule.default?.language?.countries) {
+    return acc
+  }
+  
+  // 处理 i18n 转换后的对象数组
+  const countries = Object.values(langModule.default.language.countries).map(country => {
+    const i18nObj = country as I18nObject
+    return i18nObj.loc?.source || country
+  })
+  
+  countries.forEach((country: unknown) => {
+    if (typeof country !== 'string') {
+      return
+    }
     acc[country] = code
   })
+  
   return acc
 }, {} as Record<string, string>)
 
@@ -93,185 +132,333 @@ const getLocation = async () => {
   throw new Error('All geolocation APIs failed')
 }
 
+// 辅助函数：从 i18n 对象或字符串中获取实际值
+const getI18nValue = (value: string | I18nObject): string => {
+  if (typeof value === 'string') return value
+  return value.loc?.source || ''
+}
+
 export const useLanguage = () => {
-  const { locale, availableLocales: i18nLocales, t } = useI18n()
+  // console.log('=== 初始化语言组件 ===')
+  const { locale, locales: i18nLocales, t, setLocale } = useI18n()
+  const route = useRoute()
+  const router = useRouter()
   const localeCookie = useCookie('locale', {
     maxAge: 365 * 24 * 60 * 60,
     path: '/',
   })
+  const switchLocalePath = useSwitchLocalePath()
+  const { isInitializing } = useInitOverlay()
+  const isClient = useRuntimeConfig().app.ssr === false
 
   const defaultLanguage = config.language.default
-  const currentCode = ref(defaultLanguage)
-  const suggestedLanguage = ref<string | null>(null)
-  const showLanguageSuggestion = ref(false)
+  // console.log('配置中的默认语言:', defaultLanguage)
+  // console.log('当前i18n语言:', locale.value)
+
+  const currentCode = useState<string>('locale.current', () => defaultLanguage)
+  const suggestedLanguage = useState<string | null>('suggestedLanguage', () => null)
+  const showLanguageSuggestion = useState('showLanguageSuggestion', () => false)
   const countryName = ref('')
-  const suggestionMessages = ref<{
+  const suggestionMessages = useState<{
     title: string;
     text: string;
     accept: string;
     reject: string;
-  } | null>(null)
+  } | null>('suggestionMessages', () => null)
 
   // 检查是否允许切换语言
   const canSwitchLanguage = computed(() => config.language.allowSwitch)
 
-  // 初始化语言
-  const initLanguage = () => {
-    // 如果有 cookie，使用 cookie 中的语言
-    if (localeCookie.value) {
-      currentCode.value = localeCookie.value
-      locale.value = localeCookie.value
-    } else {
-      // 否则使用默认语言
-      currentCode.value = defaultLanguage
-      locale.value = defaultLanguage
-      localeCookie.value = defaultLanguage
+  // 获取国家名称
+  const getCountryName = async (code: string, langCode: string = 'en_us') => {
+    try {
+      // 使用指定语言的国家名称
+      const locale = langCode.replace('_', '-').toLowerCase()
+      return new Intl.DisplayNames([locale], { type: 'region' }).of(code) || code
+    } catch (error) {
+      console.error('Error getting country name:', error)
+      return code
     }
   }
 
-  // 立即初始化默认语言
-  initLanguage()
+  // 初始化语言
+  const initLanguage = async () => {
+    try {
+      const route = useRoute()
+      const router = useRouter()
+      
+      // 获取当前语言代码（从 URL 或 cookie）
+      const urlLang = route.path.split('/')[1]
+      const savedLang = localeCookie.value
+      
+      // console.log('%cCURRENT:'+currentCode.value, 'color: yellow;');
+      // console.log('%cURL(url):'+urlLang, 'color: red;');
+      // console.log('%cSAVE(cookie):'+savedLang, 'color: green;');
+
+      // 如果 URL 或 cookie 中没有语言设置，进行语言检测
+      if (!urlLang && !savedLang) {
+        try {
+          // 使用 getLocation 函数获取国家代码
+          const countryCode = await getLocation()
+          
+          if (countryCode && countryToLanguage[countryCode]) {
+            const detectedLang = countryToLanguage[countryCode]
+            
+            // 首次访问自动切换到检测到的语言
+            if (detectedLang !== currentCode.value) {
+              // 直接设置语言并导航
+              currentCode.value = detectedLang
+              await setLocale(detectedLang)
+              
+              // 构建新路径
+              const pathWithoutLang = route.path.replace(/^\/[^/]+/, '') || '/'
+              const newPath = `/${detectedLang}${pathWithoutLang === '/' ? '' : pathWithoutLang}`
+              
+              // 导航到新路径
+              await router.push(newPath)
+              return
+            }
+          }
+          // 如果没有检测到合适的语言，使用默认语言
+          currentCode.value = defaultLanguage
+          await setLocale(defaultLanguage)
+          
+          // 构建新路径
+          const pathWithoutLang = route.path.replace(/^\/[^/]+/, '') || '/'
+          const newPath = `/${defaultLanguage}${pathWithoutLang === '/' ? '' : pathWithoutLang}`
+          
+          // 导航到新路径
+          await router.push(newPath)
+          return
+        } catch (error) {
+          // 发生错误时也使用默认语言
+          currentCode.value = defaultLanguage
+          await setLocale(defaultLanguage)
+          await router.push(`/${defaultLanguage}`)
+        }
+      }
+      // 如果 URL 中有语言代码且与当前不同，更新当前语言
+      if (urlLang && urlLang !== currentCode.value) {
+        await changeLocale(urlLang)
+        return
+      }
+
+      // 如果有保存的语言且与当前不同，更新当前语言
+      if (savedLang && savedLang !== currentCode.value) {
+        await changeLocale(currentCode.value)
+      }
+      
+      // 初始化完成后检测语言
+      await detectAndSetLanguage()
+    } catch (error) {
+      console.error('初始化语言时出错:', error)
+    }
+  }
 
   // 检测访问者的地理位置并设置相应的语言
   const detectAndSetLanguage = async () => {
-    // 使用全局状态检查
-    if (isGlobalDetecting) return
-    isGlobalDetecting = true
-
     try {
-      // 使用新的获取位置函数
+      // console.log('=== 开始检测语言 ===')
+      // 检查是否是首次访问
+      const isFirstVisit = !localeCookie.value
+      // console.log('是否首次访问:', isFirstVisit)
+      // console.log('当前Cookie中的语言:', localeCookie.value)
+
+      // 如果正在检测中，直接返回
+      if (isGlobalDetecting) {
+        // console.log('已在检测中，跳过')
+        return
+      }
+      isGlobalDetecting = true
+
       const countryCode = await getLocation()
+      // console.log('检测到的国家代码:', countryCode)
+      if (!countryCode) {
+        // console.log('未检测到国家代码，跳过')
+        return
+      }
 
-      // 根据国家代码查找对应的语言
-      const detectedLanguage = countryToLanguage[countryCode]
-      // 如果没有检测到对应语言，默认建议英语
-      const suggestedLang = detectedLanguage || 'en'
-
-      // 先存储检测结果，等待 InitOverlay 消失后再显示
-      const shouldShowSuggestion = suggestedLang !== currentCode.value && !checkSuggestionRejected()
-
-      if (shouldShowSuggestion) {
-        // 准备提示消息
-        suggestedLanguage.value = suggestedLang
-        countryName.value = countryCode
-
-        // 获取检测到的语言包
-        const detectedLocale = Object.entries(locales).find(([path]) => 
-          path.includes(`/${suggestedLang}.ts`)
-        )?.[1]
-
-        if (detectedLocale && (detectedLocale as any).default?.language) {
-          const langMessages = (detectedLocale as any).default.language
-          // 获取当前语言包
-          const currentLocale = Object.entries(locales).find(([path]) => 
-            path.includes(`/${currentCode.value}.ts`)
-          )?.[1]
-          const currentLangMessages = (currentLocale as any)?.default?.language
-          
-          suggestionMessages.value = {
-            title: langMessages.suggestionTitle || 'Language Suggestion',
-            text: (langMessages.suggestionText || 'Would you like to switch to {language}?')
-              .replace('{country}', getCountryName(countryName.value, suggestedLang))
-              .replace('{language}', languageLabels[suggestedLang]),
-            accept: (langMessages.suggestionAccept || 'Switch to {language}')
-              .replace('{language}', languageLabels[suggestedLang]),
-            reject: (currentLangMessages?.suggestionReject || 'Keep {language}')
-              .replace('{language}', languageLabels[currentCode.value])
-          }
-        } else {
-          suggestionMessages.value = {
-            title: 'Language Suggestion',
-            text: `Would you like to switch to ${languageLabels[suggestedLang]}?`,
-            accept: `Switch to ${languageLabels[suggestedLang]}`,
-            reject: `Keep ${languageLabels[currentCode.value]}`
-          }
+      let detectedLang = countryToLanguage[countryCode] || defaultLanguage
+      // console.log('检测到的语言:', countryToLanguage[countryCode]);
+      // console.log('建议的语言:', detectedLang)
+      // console.log('当前语言:', currentCode.value)
+      // console.log('建议语言与当前语言是否相同:', detectedLang === currentCode.value)
+      // 如果建议的语言与当前语言不同，显示建议
+      if (detectedLang !== currentCode.value) {
+        // 首次访问直接切换建议语言包
+        if(isFirstVisit){
+          await changeLocale(detectedLang);
+          // console.log('首次访问，已切换建议语言包:'+detectedLang);
+          return;
         }
+        // console.log('建议语言与当前语言不同')
+        suggestedLanguage.value = detectedLang
+
+        // 获取语言包
+        const langModule = (await import(`../locales/${detectedLang}.ts`)).default.language
+        const messages = langModule.suggestion
+        const langName = typeof langModule.name === 'string' 
+          ? langModule.name 
+          : langModule.name.loc?.source || ''
+        // console.log('已加载建议语言包')
+
+         // 获取当前语言的名称
+         const currentLangModule = (await import(`../locales/${currentCode.value}.ts`)).default.language
+         const currentMessages = currentLangModule.suggestion
+         const currentLangName = typeof currentLangModule.name === 'string'
+           ? currentLangModule.name
+           : currentLangModule.name.loc?.source || ''
+        // console.log('已加载当前语言包')
+
+        suggestionMessages.value = {
+          title: getI18nValue(messages.title),
+          text: getI18nValue(messages.text)
+            .replace('{country}', await getCountryName(countryCode, detectedLang))
+            .replace('{language}', langName),
+          accept: getI18nValue(messages.accept)
+            .replace('{language}', langName),
+          reject: getI18nValue(currentMessages.reject)
+            .replace('{language}', currentLangName)
+        }
+        // console.log('已设置语言建议消息:', suggestionMessages.value)
 
         showLanguageSuggestion.value = true
+        // console.log('已显示语言建议')
       }
     } catch (error) {
-      initLanguage()
+      console.error('语言检测出错:', error)
     } finally {
       isGlobalDetecting = false
+      // console.log('=== 语言检测结束 ===')
     }
   }
 
   // 接受语言建议
-  const acceptLanguageSuggestion = () => {
+  const acceptLanguageSuggestion = async () => {
     if (suggestedLanguage.value) {
-      currentCode.value = suggestedLanguage.value
-      locale.value = suggestedLanguage.value
-      localeCookie.value = suggestedLanguage.value
+      try {
+        // 先关闭提示框
+        showLanguageSuggestion.value = false
+        
+        const newLang = suggestedLanguage.value
+        
+        // 使用 changeLocale 切换语言
+        await changeLocale(newLang)
+      } catch (error) {
+        console.error('Error switching language:', error)
+      }
     }
-    showLanguageSuggestion.value = false
   }
 
   // 拒绝语言建议
   const rejectLanguageSuggestion = () => {
     showLanguageSuggestion.value = false
-    // 记录拒绝时间
-    if (process.client) {
-      localStorage.setItem('languageSuggestionRejected', Date.now().toString())
-    }
-  }
-
-  if (process.client) {
-    // 等待页面加载完成后再检测
-    onMounted(() => {
-      detectAndSetLanguage()
+    
+    // 记录拒绝时间，设置 12 小时过期
+    const rejectedTime = useCookie('locale.rejected_time', {
+      default: () => '',
+      maxAge: 60 * 60 * 12  // 12 小时
     })
+    rejectedTime.value = Date.now().toString()
+    
+    // 清除建议
+    suggestedLanguage.value = null
   }
-
-  const availableLocales = computed(() => 
-    i18nLocales.map(code => ({
-      code,
-      label: languageLabels[code] || code
-    }))
-  )
 
   const currentLocale = computed(() => {
-    return availableLocales.value.find((l: { code: string }) => l.code === currentCode.value)
+    return i18nLocales.value.find((l: { code: string }) => l.code === currentCode.value)
   })
-
+  
   const suggestedLocale = computed(() => {
     if (!suggestedLanguage.value) return null
-    return availableLocales.value.find((l: { code: string }) => l.code === suggestedLanguage.value)
+    return i18nLocales.value.find((l: { code: string }) => l.code === suggestedLanguage.value)
   })
 
-  const changeLocale = (code: string) => {
-    if (!canSwitchLanguage.value) return
-    
-    currentCode.value = code
-    locale.value = code
-    localeCookie.value = code
-
-    // 更新页面标题
-    useHead({
-      title: `${t('meta.title.siteName')}${t('meta.title.separator')}${t('meta.title.siteDesc')}`
-    })
-  }
-
-  // 获取国家名称
-  const getCountryName = (code: string, languageCode?: string) => {
-    const regionNames = new Intl.DisplayNames([languageCode || locale.value], { type: 'region' })
+  // 更新 HTML lang 属性
+  const updateHtmlLang = async (code: string) => {
     try {
-      return regionNames.of(code) || code
+      // 从语言包中获取 lang
+      const langModule = (await import(`../locales/${code}.ts`)).default.language
+      const lang = getI18nValue(langModule.lang).split('-')[0]
+      // console.log('更新 HTML lang 属性:', lang)
+      useHead({
+        htmlAttrs: {
+          lang
+        }
+      })
     } catch (error) {
-      return code
+      console.error('更新 HTML lang 属性出错:', error)
     }
   }
 
+  const changeLocale = async (code: string) => {
+    if (!canSwitchLanguage.value) return
+    
+    try {
+      // console.log('=== 开始切换语言 ===')
+      // console.log('目标语言:', code)
+      // console.log('当前路径:', route.path)
+      
+      // 获取当前路径（移除语言前缀）
+      const currentPath = route.path
+      const pathWithoutLang = currentPath.replace(/^\/[^\/]+/, '') || '/'
+      // console.log('移除语言前缀后的路径:', pathWithoutLang)
+      
+      // 所有语言都添加前缀
+      const newPath = `/${code}${pathWithoutLang === '/' ? '' : pathWithoutLang}`
+      // console.log('新的路径:', newPath)
+      
+      // 先更新 i18n locale
+      await setLocale(code)
+      // console.log('已更新i18n语言')
+      
+      // 更新 cookie 和当前代码
+      localeCookie.value = code
+      currentCode.value = code
+      // console.log('已更新Cookie和当前语言代码')
+      
+      // 更新 HTML lang 属性
+      updateHtmlLang(code)
+      
+      // 只在路径不同时才进行导航
+      if (newPath !== currentPath) {
+        // console.log('准备导航到新路径')
+        await router.replace(newPath)
+        // console.log('导航完成')
+      }
+      
+      // 强制更新 i18n 实例
+      await nextTick()
+      detectAndSetLanguage()
+      locale.value = code
+      // console.log('=== 语言切换完成 ===')
+    } catch (error) {
+      console.error('语言切换出错:', error)
+    }
+  }
+
+  // 在组件挂载时初始化语言
+  onMounted(() => {
+    initLanguage()
+  })
+
   return {
-    currentLocale,
-    suggestedLocale,
-    availableLocales,
+    locale,
+    locales: i18nLocales,
+    t,
+    setLocale,
+    currentCode,
+    suggestedLanguage,
     showLanguageSuggestion,
     countryName,
     suggestionMessages,
-    changeLocale,
+    canSwitchLanguage,
     detectAndSetLanguage,
     acceptLanguageSuggestion,
     rejectLanguageSuggestion,
-    canSwitchLanguage
+    getCountryName,
+    currentLocale,
+    suggestedLocale,
+    changeLocale
   }
-} 
+}

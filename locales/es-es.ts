@@ -1,18 +1,24 @@
 export default {
   language: {
     name: 'Español',
+    lang: 'es-ES',
+    status: true,
     countries: ['ES', 'MX', 'AR', 'CO', 'PE', 'CL', 'VE'], // 支持的国家/地区代码
-    suggestionTitle: 'Sugerencia de idioma',
-    suggestionText: 'Detectamos que eres de {country}. ¿Te gustaría cambiar a {language}?',
-    suggestionAccept: 'Cambiar a {language}',
-    suggestionReject: 'Mantener {language}'
+    suggestion: {
+      title: 'Sugerencia de idioma',
+      text: 'Detectamos que eres de {country}. ¿Te gustaría cambiar a {language}?',
+      accept: 'Cambiar a {language}',
+      reject: 'Mantener {language}'
+    },
   },
   meta: {
     title: {
       siteName: 'Tiotecno',
       siteDesc: 'Agente de Compras de Comercio Exterior de China',
       separator: ' - '
-    }
+    },
+    description: 'Agente de Compras de Comercio Exterior de China',
+    keywords: ''
   },
   menu: {
     home: 'Inicio',
