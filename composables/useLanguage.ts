@@ -1,5 +1,6 @@
 import { ref, computed, nextTick, onMounted } from 'vue'
-import { useI18n, useSwitchLocalePath } from '#imports'
+import { useI18n } from 'vue-i18n'
+import { useSwitchLocalePath } from '#imports'
 import { useCookie } from '#app'
 import config from '~/config/config'
 import { useInitOverlay } from './useInitOverlay'
@@ -22,6 +23,7 @@ interface I18nObject {
   t?: number;
   b?: {
     t?: number;
+    s?: string;
     i?: Array<{
       t?: number;
       k?: string;
@@ -147,16 +149,37 @@ const getLocation = async () => {
 const getI18nValue = (value: string | I18nObject): string => {
   if (typeof value === 'string') return value
   
+  // 开发环境
   if (value.loc?.source) {
     return value.loc.source
   }
   
-  // 生产环境 - 处理复杂的嵌套结构
-  if (value.b?.i) {
-    // 尝试找到包含实际文本的对象
-    const textObj = value.b.i.find(item => item.s || item.v)
-    if (textObj) {
-      return textObj.s || textObj.v || ''
+  // 生产环境
+  if (value.t === 0 && value.b) {
+    // 简单文本
+    if (value.b.s) {
+      return value.b.s
+    }
+    // 复杂文本（带变量）
+    if (value.b.i) {
+      let result = ''
+      let currentText = ''
+      
+      value.b.i.forEach(item => {
+        if (item.t === 3) {
+          // 累积普通文本
+          currentText += item.v || ''
+        } else if (item.t === 4) {
+          // 添加累积的文本和变量占位符
+          result += currentText + `{${item.k}}`
+          currentText = ''
+        }
+      })
+      
+      // 添加最后剩余的文本
+      result += currentText
+      
+      return result
     }
   }
   
