@@ -11,7 +11,6 @@ import { useRuntimeConfig } from '#app'
 
 // 自动导入所有语言包
 const locales = import.meta.glob('~/locales/*.ts', { eager: true })
-console.log('All locales:', locales);
 // 全局检测状态
 let isGlobalDetecting = false
 
@@ -214,7 +213,6 @@ const loadLanguageModule = async (code: string) => {
 }
 
 export const useLanguage = () => {
-  console.log('=== 初始化语言组件 ===')
   const { locale, locales: i18nLocales, t, setLocale } = useI18n()
   const route = useRoute()
   const router = useRouter()
@@ -227,8 +225,6 @@ export const useLanguage = () => {
   const isClient = useRuntimeConfig().app.ssr === false
 
   const defaultLanguage = config.language.default
-  console.log('配置中的默认语言:', defaultLanguage)
-  console.log('当前i18n语言:', locale.value)
 
   const currentCode = useState<string>('locale.current', () => defaultLanguage)
   const suggestedLanguage = useState<string | null>('suggestedLanguage', () => null)
@@ -265,10 +261,6 @@ export const useLanguage = () => {
       // 获取当前语言代码（从 URL 或 cookie）
       const urlLang = route.path.split('/')[1]
       const savedLang = localeCookie.value
-      
-      console.log('%cCURRENT:'+currentCode.value, 'color: yellow;');
-      console.log('%cURL(url):'+urlLang, 'color: red;');
-      console.log('%cSAVE(cookie):'+savedLang, 'color: green;');
 
       // 如果 URL 或 cookie 中没有语言设置，进行语言检测
       if (!urlLang && !savedLang) {
@@ -333,40 +325,28 @@ export const useLanguage = () => {
   // 检测访问者的地理位置并设置相应的语言
   const detectAndSetLanguage = async () => {
     try {
-      console.log('=== 开始检测语言 ===')
       // 检查是否是首次访问
       const isFirstVisit = !localeCookie.value
-      console.log('是否首次访问:', isFirstVisit)
-      console.log('当前Cookie中的语言:', localeCookie.value)
 
       // 如果正在检测中，直接返回
       if (isGlobalDetecting) {
-        console.log('已在检测中，跳过')
         return
       }
       isGlobalDetecting = true
 
       const countryCode = await getLocation()
-      console.log('检测到的国家代码:', countryCode)
       if (!countryCode) {
-        console.log('未检测到国家代码，跳过')
         return
       }
 
       let detectedLang = countryToLanguage[countryCode] || defaultLanguage
-      console.log('检测到的语言:', countryToLanguage[countryCode]);
-      console.log('建议的语言:', detectedLang)
-      console.log('当前语言:', currentCode.value)
-      console.log('建议语言与当前语言是否相同:', detectedLang === currentCode.value)
       // 如果建议的语言与当前语言不同，显示建议
       if (detectedLang !== currentCode.value) {
         // 首次访问直接切换建议语言包
         if(isFirstVisit){
           await changeLocale(detectedLang);
-          console.log('首次访问，已切换建议语言包:'+detectedLang);
           return;
         }
-        console.log('建议语言与当前语言不同')
         suggestedLanguage.value = detectedLang
 
         // 获取语言包
@@ -375,11 +355,7 @@ export const useLanguage = () => {
         ) || []
 
         const langMessages = (langModule as any)?.default?.language
-        console.log('已加载建议语言包', langMessages)
-        //const langName = langMessages.name.loc.source
         const langName = getI18nValue(langMessages.name);
-        console.log('建议语言包名称', langName);
-        console.log('已加载建议语言包')
 
         // 获取当前语言的名称
         const [, currentLangModule] = Object.entries(locales).find(([path]) => 
@@ -387,10 +363,7 @@ export const useLanguage = () => {
         ) || []
 
         const currentLangMessages = (currentLangModule as any)?.default?.language
-        console.log('已加载当前语言包', currentLangMessages)
         const currentLangName = getI18nValue(currentLangMessages.name)
-        console.log('当前语言包名称', currentLangName);
-        console.log('已加载当前语言包')
 
         suggestionMessages.value = {
           title: getI18nValue(langMessages.suggestion.title),
@@ -402,16 +375,13 @@ export const useLanguage = () => {
           reject: getI18nValue(currentLangMessages.suggestion.reject)
             .replace('{language}', currentLangName)
         }
-        console.log('已设置语言建议消息:', suggestionMessages.value)
 
         showLanguageSuggestion.value = true
-        console.log('已显示语言建议')
       }
     } catch (error) {
       console.error('语言检测出错:', error)
     } finally {
       isGlobalDetecting = false
-      console.log('=== 语言检测结束 ===')
     }
   }
 
@@ -462,14 +432,12 @@ export const useLanguage = () => {
       // 从语言包中获取 lang
       const langModule = await loadLanguageModule(code)
       const lang = getI18nValue(langModule.lang).split('-')[0]
-      console.log('更新 HTML lang 属性:', lang)
       useHead({
         htmlAttrs: {
           lang
         }
       })
     } catch (error) {
-      console.error('更新 HTML lang 属性出错:', error)
     }
   }
 
@@ -477,43 +445,33 @@ export const useLanguage = () => {
     if (!canSwitchLanguage.value) return
     
     try {
-      console.log('=== 开始切换语言 ===')
-      console.log('目标语言:', code)
-      console.log('当前路径:', route.path)
       
       // 获取当前路径（移除语言前缀）
       const currentPath = route.path
       const pathWithoutLang = currentPath.replace(/^\/[^\/]+/, '') || '/'
-      console.log('移除语言前缀后的路径:', pathWithoutLang)
       
       // 所有语言都添加前缀
       const newPath = `/${code}${pathWithoutLang === '/' ? '' : pathWithoutLang}`
-      console.log('新的路径:', newPath)
       
       // 先更新 i18n locale
       await setLocale(code)
-      console.log('已更新i18n语言')
       
       // 更新 cookie 和当前代码
       localeCookie.value = code
       currentCode.value = code
-      console.log('已更新Cookie和当前语言代码')
       
       // 更新 HTML lang 属性
       updateHtmlLang(code)
       
       // 只在路径不同时才进行导航
       if (newPath !== currentPath) {
-        console.log('准备导航到新路径')
         await router.replace(newPath)
-        console.log('导航完成')
       }
       
       // 强制更新 i18n 实例
       await nextTick()
       detectAndSetLanguage()
       locale.value = code
-      console.log('=== 语言切换完成 ===')
     } catch (error) {
       console.error('语言切换出错:', error)
     }

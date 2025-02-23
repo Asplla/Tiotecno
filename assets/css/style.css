@@ -56,7 +56,8 @@
     --toast-info-bg: #ffffff;
     --toast-info-text: #1570ef;
     --toast-info-border: #e0eaff;
-
+    /* Dialog Colors */
+    --dialog-bg: #FFFFFF;
     /* 地图相关变量 */
     --map-bg: #FFFFFF;
     --map-stroke: #cacaca;
@@ -130,7 +131,8 @@
     --toast-info-bg: #0f1b2d;
     --toast-info-text: #5aa2ff;
     --toast-info-border: #172b4d;
-
+    /* Dialog Colors */
+    --dialog-bg: #191919;
     /* 地图暗色模式变量 */
     --map-bg: #1A1A1A;
     --map-stroke: #797979;
@@ -718,7 +720,7 @@ body.no-scroll {
 
   .language-suggestion {
     position: relative;
-    background: var(--header-bg);
+    background: var(--dialog-bg);
     -webkit-backdrop-filter: var(--header-backdrop-filter);
     backdrop-filter: var(--header-backdrop-filter);
     border: 1px solid var(--border-primary);
@@ -737,7 +739,7 @@ body.no-scroll {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: var(--header-backdrop-filter);
     z-index: 1000;
     animation: overlayFadeIn 0.3s ease-out;
