@@ -19,7 +19,7 @@
         :placeholder="t('contact.form.message')"
         v-model="formData.message"
       ></textarea>
-      <button 
+      <SpotlightCard :spotlight-color="'var(--card-spotlight-color)'"
         class="w-full p-3 md:p-4 rounded-md transition-all cursor-pointer btn-default flex items-center justify-center gap-2"
         @click="handleSubmit"
         :disabled="isSubmitting"
@@ -31,7 +31,7 @@
           </svg>
         </span>
         {{ isSubmitting ? t('contact.form.sending') : t('contact.form.send') }}
-      </button>
+      </SpotlightCard>
     </div>
   </div>
 </template>
@@ -41,6 +41,7 @@ import { ref } from 'vue'
 import { useNuxtApp } from '#app'
 import { useI18n } from 'vue-i18n'
 import { useFetch } from '#app'
+import SpotlightCard from '~/components/SpotlightCard.vue'
 
 const { $toast: toast } = useNuxtApp()
 const { t } = useI18n()

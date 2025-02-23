@@ -1,15 +1,13 @@
 <template>
   <div 
-    class="fixed inset-0 z-[100] transition-all duration-500 flex items-center justify-center"
+    class="fixed inset-0 z-[100] transition-all duration-500 flex items-center justify-center bg-primary"
     :class="[
-      isDarkMode ? 'bg-black' : 'bg-white',
       { 'opacity-0 pointer-events-none': !show }
     ]"
   >
     <!-- Logo -->
     <LogoIcon 
-      class="h-10 animate-pulse transition-colors duration-500" 
-      :class="isDarkMode ? 'text-white' : 'text-black'" 
+      class="h-10 animate-pulse transition-colors duration-500 text-primary" 
     />
   </div>
 </template>
@@ -22,7 +20,6 @@ import { useTheme } from '~/composables/useTheme'
 
 const show = ref(true)
 const { $router } = useNuxtApp()
-const { isDarkMode } = useTheme()
 
 const emit = defineEmits(['hidden'])
 

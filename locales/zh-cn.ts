@@ -3,7 +3,7 @@ export default {
     name: '简体中文',
     lang: 'zh-CN',
     status: true,
-    countries: ['CN', 'HK', 'TW', 'MO', 'SG'],
+    countries: ['CN'],
     suggestion: {
       title: '语言建议',
       text: '检测到您来自{country}，是否切换到{language}？',
