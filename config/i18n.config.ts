@@ -36,14 +36,18 @@ const messages = Object.entries(locales).reduce((acc, [path, module]) => {
       for (const key in obj) {
         const value = obj[key]
         
-        // 如果有 loc.source，使用它的值
-        if (value?.loc?.source) {
-          result[key] = value.loc.source
-        }
-        // 如果有 b.i 结构，提取文本
-        else if (value?.b?.i) {
-          const textObj = value.b.i.find((item: any) => item.s || item.v)
-          result[key] = textObj ? (textObj.s || textObj.v) : value
+        // 处理生产环境的结构
+        if (value?.t === 0 && value?.b) {
+          if (value.b.s) {
+            // 简单文本
+            result[key] = value.b.s
+          } else if (value.b.i) {
+            // 复杂文本（带变量）
+            result[key] = value.b.i
+              .filter((item: any) => item.t === 3)
+              .map((item: any) => item.v || '')
+              .join('')
+          }
         }
         // 递归处理其他对象
         else if (typeof value === 'object') {
